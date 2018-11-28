@@ -23,13 +23,34 @@ const db = require("./models")(mongoose);
 
 // ------------------------------  PASSPORT  ------------------------------
 const passport = require("passport");
-require("./config/passport");
+const localStrategy = require("passport-local").Strategy;
+const jwtConfig = require("./config/jwtConfig");
+const jwt = require("jsonwebtoken");
+const passportJWT = require("passport-jwt");
+const bcrypt = require("bcrypt");
+
+// * apply passport settings
+require("./config/passport")(
+  jwtConfig,
+  bcrypt,
+  passport,
+  localStrategy,
+  passportJWT,
+  db
+);
+
 app.use(passport.initialize());
 
 // -------------------------------  ROUTER  -------------------------------
-// --------- define routes --------
-const apiRouter = require("./routes/api")(express.Router(), db);
-const authRouter = require("./routes/auth")(express.Router(), db);
+// --------- define sub-routers --------
+const apiRouter = require("./routes/api")(express.Router(), db, passport);
+const authRouter = require("./routes/auth")(
+  express.Router(),
+  db,
+  passport,
+  jwt,
+  jwtConfig
+);
 
 // ------- mount sub-routers ------
 const router = express.Router();

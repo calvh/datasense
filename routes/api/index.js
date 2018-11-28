@@ -1,3 +1,4 @@
-module.exports = (router, db) => {
-    router.use("/") 
-}
+module.exports = (router, db, passport) => {
+  require("ROUTE_NAME")(router, db, passport);
+  return router;
+};

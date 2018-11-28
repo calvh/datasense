@@ -1,39 +1,19 @@
-import User from '../sequelize';
-import passport from 'passport';
-
-module.exports = app => {
-  app.put('/updateUser', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+module.exports = (router, db, passport) => {
+  const User = db.User;
+  router.put("/users/:id/", (req, res, next) => {
+    passport.authenticate("jwt", { session: false }, (err, user, info) => {
       if (err) {
-        console.log(err);
+        return res.status(400).send({ error: err });
       }
-      if (info != undefined) {
-        console.log(info.message);
-        res.send(info.message);
-      } else {
-        User.findOne({
-          where: {
-            username: user.username,
-          },
-        }).then(user => {
-          if (user != null) {
-            console.log('user found in db');
-            user
-              .update({
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                email: req.body.email,
-              })
-              .then(() => {
-                console.log('user updated');
-                res.status(200).send({ auth: true, message: 'user updated' });
-              });
-          } else {
-            console.log('no user exists in db to update');
-            res.status(404).json('no user exists in db to update');
-          }
-        });
+      if (!user) {
+        return res.status(422).send({ error: info.message });
       }
+
+      User.findByIdAndUpdate(user._id, {
+        email: req.body.email,
+      })
+        .then(user => res.json(user))
+        .catch(err => res.status(500).send(err));
     })(req, res, next);
   });
 };
