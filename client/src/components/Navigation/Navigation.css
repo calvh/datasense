@@ -1,0 +1,115 @@
+body{
+  font-family: 'Raleway', Arial, sans-serif;
+}
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+ 
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  /* background: #373a47; */
+  background: #373a47;
+}
+ 
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+ 
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+ 
+/* General sidebar styles */
+.bm-menu {
+  background: #373a47;
+  /* padding: 2.5em 1.5em 0; */
+  font-size: 0.9em;
+}
+ 
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+ 
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  /* padding: 0.8em; */
+}
+ 
+/* Individual item */
+.bm-item {
+  display: inline-block;
+}
+ 
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.bm-item-list a span {
+  margin-left: 10px;
+  font-weight: 700;
+}
+
+.bm-menu a {
+  color: #b8b7ad;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.bm-item-list a {
+  /* padding: 0.8em; */
+}
+
+.bm-menu{
+  font-size: 1.15em;
+}
+
+.bm-menu a:hover{
+  /* color:#C94E50; */
+}
+
+.carousel-caption{
+  color:black;
+}
+
+a{
+padding: 1em;
+text-transform: uppercase;
+transition: background 0.3s, box-shadow 0.3s;
+box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
+}
+
+h2.bm-item{
+  margin: 0 auto;
+    padding: 2em 1em;
+    color: rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #b8b7ad;
+}
+
+a.bm-item:hover{
+  background:#353235
+}
+
+#pills-login-tab, #pills-register-tab{
+background:linen;
+color:black;
+}
+
+.nav-link.active{
+  background-color:#dc3545 !important;
+  color:#fff !important;
+}
