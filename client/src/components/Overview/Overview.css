@@ -1,0 +1,131 @@
+/* .card{
+  margin:100px 30px;
+  background-color: #fff;
+    border: none;
+    -webkit-box-shadow: 0 0.125rem 0.8rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.125rem 0.8rem rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+}
+
+.card-header{
+  border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+  font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1.5;
+    color: #212529;
+} */
+
+.card {
+  background-color: #fff;
+  border: none;
+  -webkit-box-shadow: 0 0.125rem 0.8rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.125rem 0.8rem rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  /* margin:100px 30px 100px 100px; */
+}
+
+.card > .list-group:first-child .list-group-item:first-child {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.card > .list-group:last-child .list-group-item:last-child {
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.card-title {
+  margin-bottom: 1.5rem;
+}
+
+.card-subtitle {
+  margin-top: -0.75rem;
+}
+
+.card-link + .card-link {
+  margin-left: 2rem;
+}
+
+.card-header {
+  font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1.5;
+    color: #212529;
+  padding: 1.5rem 2rem;
+  background-color: white;
+  border-bottom: none;
+  -webkit-box-shadow: 0 0.125rem 0.8rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.125rem 0.8rem rgba(0, 0, 0, 0.1);
+}
+
+.card-header:first-child {
+  border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+}
+
+.card-header-transparent {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-bottom: none;
+}
+
+.card-footer {
+  padding: 1.5rem 2rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+
+.card-footer:last-child {
+  border-radius: 0 0 calc(1rem - 1px) calc(1rem - 1px);
+}
+
+.card-header-tabs {
+  margin-right: -1rem;
+  margin-bottom: -1.5rem;
+  margin-left: -1rem;
+  border-bottom: 0;
+}
+
+.card-header-pills {
+  margin-right: -1rem;
+  margin-left: -1rem;
+}
+
+.card-img-overlay {
+  padding: 1.25rem;
+}
+
+.card-img-overlay-opacity {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.card-img {
+  border-radius: calc(1rem - 1px);
+}
+
+.card-img-top {
+  border-top-left-radius: calc(1rem - 1px);
+  border-top-right-radius: calc(1rem - 1px);
+}
+
+.card-img-bottom {
+  border-bottom-right-radius: calc(1rem - 1px);
+  border-bottom-left-radius: calc(1rem - 1px);
+}
+
+.card-deck .card {
+  margin-bottom: 15px;
+}
+
+@media (min-width: 576px) {
+  .card-deck {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+  .card-deck .card {
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+}

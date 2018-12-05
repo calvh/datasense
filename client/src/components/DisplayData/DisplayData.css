@@ -1,0 +1,24 @@
+.LinkUps{
+    margin-left: 50px;
+    float: right;
+    padding:5px;
+}
+
+p.a{
+    margin-left: 10px;
+}
+
+article{
+    padding: 10px;
+    width: 100% !important;
+    display: flex;  
+}
+
+div h3{
+    margin: 0;
+    border: 0;
+    width: 50%;
+    display: inline-block;
+}
+
+
