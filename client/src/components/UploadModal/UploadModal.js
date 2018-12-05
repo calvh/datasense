@@ -2,7 +2,8 @@ import React from 'react'
 import './UploadModal.css'
 import ReactFileReader from 'react-file-reader'
 import ReactDropzone from 'react-dropzone'
-import request from 'superagent'
+/*Removed for heroku deployment: */
+/*import request from 'superagent' */
 
 export default props => {
   return (
