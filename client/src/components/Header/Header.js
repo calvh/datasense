@@ -11,15 +11,17 @@ export default props => {
     // </div>
     <section className="row">
       <div className="col-xl-3 col-lg-3 mb-3 mb-xl-0 header-top-row">
-        <div className="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between upload-button">
+        <div
+          className="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between upload-button"
+          data-toggle="modal"
+          data-target="#exampleModalCenter"
+        >
           <div className="flex-grow-1 d-flex align-items-center">
             <div className="icon text-white bg-violet">
               <i className="fas fa-plus-circle" />
             </div>
             <div className="text">
-              <h2 className="mb-0 UploadData" data-toggle="modal" data-target="#exampleModalCenter">
-                Upload Data
-              </h2>
+              <h2 className="mb-0 UploadData">Upload Data</h2>
             </div>
           </div>
         </div>
@@ -40,12 +42,12 @@ export default props => {
       <div className="col-xl-3 col-lg-3 mb-3 mb-xl-0 header-top-row">
         <div className="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between export-button">
           <div className="flex-grow-1 d-flex align-items-center">
-            <div className="text">
-              <h2 className="mb-0">Export Data</h2>
+            <div className="icon text-white bg-violet">
+              <i className="fas fa-minus-circle" />
             </div>
-          </div>
-          <div className="icon text-white bg-violet">
-            <i className="fas fa-minus-circle" />
+            <div className="text">
+              <h2 className="mb-0 ExportData">Export Data</h2>
+            </div>
           </div>
         </div>
       </div>

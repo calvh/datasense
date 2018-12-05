@@ -64,4 +64,8 @@ cursor: pointer;
 .export-button:hover{
     background-color: #ffffffb8!important;
     cursor: pointer;
-    }
+}
+
+.UploadData, .ExportData{
+    font-size:1.5rem;
+}
