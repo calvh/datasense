@@ -7,7 +7,7 @@ export default props => {
   return (
     <Menu>
       <h2>
-        <img className="center-block" src={logo} alt="logo" />
+        <img className="center-block heroku" src={logo} alt="logo" />
       </h2>
       <a id="home" className="menu-item" href="/">
         <i className="fas fa-home" /> Home
