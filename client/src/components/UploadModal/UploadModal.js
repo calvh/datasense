@@ -1,59 +1,46 @@
 import React from 'react'
 import './UploadModal.css'
 import ReactFileReader from 'react-file-reader'
+import ReactDropzone from 'react-dropzone'
+import request from 'superagent'
 
 export default props => {
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="exampleModalCenter"
       tabindex="-1"
       role="dialog"
       aria-labelledby="exampleModalCenterTitle"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">
+      <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLongTitle">
               Upload New Dataset
             </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <form>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="projectName">Project Name</label>
-                <input type="text" class="form-control" id="projectName" placeholder="Enter project name" />
+                <input type="text" className="form-control" id="projectName" placeholder="Enter project name" />
               </div>
+
+              <ReactDropzone onDrop={this.onDrop}>Drop your .CSV file here!!</ReactDropzone>
             </form>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">
+          <div className="modal-footer">
+            <button type="button" className="btn btn-primary">
               Generate Graph
             </button>
           </div>
         </div>
       </div>
     </div>
-
-    // <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
-    //     <button className='btn'>Upload</button>
-    // </ReactFileReader>
-
-    // handleFiles = files => {
-    //     var reader = new FileReader();
-    //     reader.onload = function(e) {
-    //     // Use reader.result
-    //     alert(reader.result)
-    //     }
-    //   reader.readAsText(files[0]);
-    // }
-
-    // Project Named
-    // Upload csv file
-    // button > Generate Graph < /button>
   )
 }

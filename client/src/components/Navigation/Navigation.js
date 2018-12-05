@@ -1,11 +1,14 @@
 import React from 'react'
 import './Navigation.css'
 import { slide as Menu } from 'react-burger-menu'
+import logo from './../../Data-Sense-Logo.svg'
 
 export default props => {
   return (
     <Menu>
-      <h2>DataSense</h2>
+      <h2>
+        <img className="center-block" src={logo} alt="logo" />
+      </h2>
       <a id="home" className="menu-item" href="/">
         <i className="fas fa-home" /> Home
       </a>
