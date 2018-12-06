@@ -21,7 +21,17 @@ module.exports = app => {
                                 _id: req.params.id
                             }).then(dbDataset => dbDataset.remove())
                             .then(dbDataset => res.json(dbDataset))
-                            .catch(err => res.status(422).json(err));
+                            .then(function (dbDataSet) {
+                                return db.User.findOneAndUpdate({
+                                    _id: user.id
+                                }, {
+                                    $pull: {
+                                        datasets: dbDataSet._id
+                                    }
+                                });
+                            }).catch(err => res.status(422).json(err));
+
+
                     } else {
                         console.log('User not found');
                         res.status(404).json('User not found');
