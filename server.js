@@ -20,6 +20,10 @@ const mongoose = require("mongoose");
 const dbName = "datasense";
 const MONGODB_URI = process.env.MONGODB_URI || `mongodb://localhost/${dbName}`;
 const db = require("./models")(mongoose);
+mongoose.connect(
+  MONGODB_URI,
+  { useNewUrlParser: true }
+);
 
 // ------------------------------  PASSPORT  ------------------------------
 const passport = require("passport");
@@ -64,11 +68,6 @@ app.use((req, res) => {
 });
 
 // ----------------------------  START SERVER  ----------------------------
-mongoose.connect(
-  MONGODB_URI,
-  { useNewUrlParser: true }
-);
-
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🌎 ==> Server now on port ${PORT}!`);

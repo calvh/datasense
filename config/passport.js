@@ -20,8 +20,8 @@ module.exports = (
         session: false,
       },
       (email, password, done) => {
-        try {
-          User.find({ email }).then(user => {
+        User.findOne({ email })
+          .then(user => {
             if (user) {
               console.log("email already taken");
               return done(null, false, {
@@ -38,10 +38,8 @@ module.exports = (
                 });
               });
             }
-          });
-        } catch (err) {
-          done(err);
-        }
+          })
+          .catch(err => done(err));
       }
     )
   );
@@ -55,8 +53,8 @@ module.exports = (
         session: false,
       },
       (email, password, done) => {
-        try {
-          User.find({ email }).then(user => {
+        User.findOne({ email })
+          .then(user => {
             if (!user) {
               return done(null, false, { message: "bad email" });
             } else {
@@ -71,10 +69,8 @@ module.exports = (
                 return done(null, user);
               });
             }
-          });
-        } catch (err) {
-          done(err);
-        }
+          })
+          .catch(err => done(err));
       }
     )
   );
@@ -87,8 +83,8 @@ module.exports = (
   passport.use(
     "jwt",
     new JWTstrategy(opts, (jwt_payload, done) => {
-      try {
-        User.findById({ id: jwt_payload.id }).then(user => {
+      User.findById({ id: jwt_payload.id })
+        .then(user => {
           if (user) {
             console.log("user found in db in passport");
             done(null, user);
@@ -96,10 +92,8 @@ module.exports = (
             console.log("user not found in db");
             done(null, false);
           }
-        });
-      } catch (err) {
-        done(err);
-      }
+        })
+        .catch(err => done(err));
     })
   );
 };
