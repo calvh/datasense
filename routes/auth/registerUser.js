@@ -7,7 +7,7 @@ module.exports = (router, passport, jwt, jwtConfig) => {
       if (!user) {
         return res.status(422).send({ error: info.message });
       }
-      req.logIn(user, function(err) {
+      req.logIn(user, { session: false }, function(err) {
         if (err) {
           return res.status(400).send({ error: err });
         }
