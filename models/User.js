@@ -4,10 +4,14 @@ module.exports = db => {
     {
       email: {
         type: String,
+        required: true,
       },
+
       password: {
         type: String,
+        required: true,
       },
+      
       datasets: [
         {
           type: Schema.Types.ObjectId,
@@ -15,6 +19,7 @@ module.exports = db => {
         },
       ],
     },
+
     { timestamps: true }
   );
 

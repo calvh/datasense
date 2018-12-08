@@ -2,15 +2,14 @@ module.exports = (router, passport, jwt, jwtConfig) => {
   router.post("/login", (req, res, next) => {
     passport.authenticate("login", (err, user, info) => {
       if (err) {
-        return res.status(400).send({ error: err });
+        return res.status(400).send({ err, info });
       }
       if (!user) {
-        return res.status(422).send({ error: info.message });
+        return res.status(404).send({ info });
       }
       req.logIn(user, { session: false }, function(err) {
         if (err) {
-          console.log(err);
-          return res.status(400).send({ error: err });
+          return res.status(400).send({ err });
         }
 
         const token = jwt.sign(

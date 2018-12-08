@@ -50,7 +50,6 @@ app.use(passport.initialize());
 const apiRouter = require("./routes/api")(express.Router(), db, passport);
 const authRouter = require("./routes/auth")(
   express.Router(),
-  db,
   passport,
   jwt,
   jwtConfig
@@ -70,5 +69,5 @@ app.use((req, res) => {
 // ----------------------------  START SERVER  ----------------------------
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`🌎 ==> Server now on port ${PORT}!`);
+  console.log(`🌎 ==> API Server started on port ${PORT}!`);
 });

@@ -1,15 +1,16 @@
 module.exports = (router, db, passport) => {
   const User = db.User;
-  router.delete("/users/:id/", (req, res, next) => {
+
+  router.delete("/users/:id", (req, res, next) => {
     passport.authenticate("jwt", { session: false }, (err, user, info) => {
       if (err) {
-        return res.status(400).send({ error: err });
+        return res.status(400).send({ err, info });
       }
       if (!user) {
-        return res.status(422).send({ error: info.message });
+        return res.status(404).send({ info });
       }
 
-      User.findByIdAndDelete(user._id)
+      User.findByIdAndDelete(req.params.id)
         .then(() =>
           res.status(200).send({ message: "User successfully deleted" })
         )

@@ -1,26 +1,18 @@
 module.exports = (router, db, passport) => {
-  // Get Route on API Dataset
-  router.get("/datasets/", (req, res, next) => {
+  const User = db.User;
+
+  router.get("/datasets", (req, res, next) => {
     passport.authenticate("jwt", { session: false }, (err, user, info) => {
       if (err) {
-        console.log(err);
+        return res.status(400).send({ err, info });
       }
-      if (info != undefined) {
-        console.log(info.message);
-        res.send(info.message);
-      } else {
-        db.User.findById(user.id)
-          .populate("datasets")
-          .then(user => {
-            if (user != undefined) {
-              res.json(user.datasets);
-              console.log("List of all datasets for user returned");
-            } else {
-              console.log("User not found");
-              res.status(404).json("User not found");
-            }
-          });
+      if (!user) {
+        return res.status(404).send({ info });
       }
+      User.findById(user._id)
+        .populate("datasets")
+        .then(dbUser => res.json(dbUser.datasets))
+        .catch(err => res.status(500).send(err));
     })(req, res, next);
   });
 };

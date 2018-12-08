@@ -4,7 +4,22 @@ import Slider from './../components/Slider/Slider'
 
 class Home extends Component {
   state = {
-    isLoggedIn: true,
+    accessString: "",
+    isLoggedIn: false,
+  }
+
+  componentDidMount() {
+    const accessString = localStorage.getItem("JWT");
+    if (!accessString) {
+      this.setState({
+        isLoggedIn: false,
+      });
+    } else {
+      this.setState({
+        accessString,
+        isLoggedIn: true,
+      });
+    }
   }
 
   render() {

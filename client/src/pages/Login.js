@@ -1,13 +1,29 @@
-import React, { Component } from 'react'
-import Navigation from './../components/Navigation/Navigation'
-import LoginForm from './../components/LoginForm/LoginForm'
-import RegisterForm from './../components/RegisterForm/RegisterForm'
-import { Container, Row, Col } from 'reactstrap'
+import React, { Component } from "react";
+import Navigation from "./../components/Navigation/Navigation";
+import LoginForm from "./../components/LoginForm/LoginForm";
+import RegisterForm from "./../components/RegisterForm/RegisterForm";
+import { Container, Row, Col } from "reactstrap";
 
 class Login extends Component {
   state = {
-    isLoggedIn: true,
+    accessString: "",
+    isLoggedIn: false,
+  };
+
+  componentDidMount() {
+    const accessString = localStorage.getItem("JWT");
+    if (!accessString) {
+      this.setState({
+        isLoggedIn: false,
+      });
+    } else {
+      this.setState({
+        accessString,
+        isLoggedIn: true,
+      });
+    }
   }
+
   render() {
     return (
       <div>
@@ -51,10 +67,20 @@ class Login extends Component {
             <Col md="3" />
             <Col md="6">
               <div className="tab-content" id="pills-tabContent">
-                <div className="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
+                <div
+                  className="tab-pane fade show active"
+                  id="pills-login"
+                  role="tabpanel"
+                  aria-labelledby="pills-login-tab"
+                >
                   <LoginForm history={this.props.history} />
                 </div>
-                <div className="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+                <div
+                  className="tab-pane fade"
+                  id="pills-register"
+                  role="tabpanel"
+                  aria-labelledby="pills-register-tab"
+                >
                   <RegisterForm history={this.props.history} />
                 </div>
               </div>
@@ -63,8 +89,8 @@ class Login extends Component {
           </Row>
         </Container>
       </div>
-    )
+    );
   }
 }
 
-export default Login
+export default Login;

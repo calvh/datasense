@@ -23,10 +23,9 @@ module.exports = (
         User.findOne({ email })
           .then(user => {
             if (user) {
-              console.log("email already taken");
-              return done(null, false, {
-                message: "email already taken",
-              });
+              const message = "Email already registered";
+              console.log(message);
+              return done(null, false, { message });
             } else {
               bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
                 User.create({
@@ -56,16 +55,17 @@ module.exports = (
         User.findOne({ email })
           .then(user => {
             if (!user) {
-              return done(null, false, { message: "bad email" });
+              const message = "Email does not exist";
+              console.log(message);
+              return done(null, false, { message });
             } else {
               bcrypt.compare(password, user.password).then(response => {
                 if (!response) {
-                  console.log("passwords do not match");
-                  return done(null, false, {
-                    message: "passwords do not match",
-                  });
+                  const message = "Wrong password";
+                  console.log(message);
+                  return done(null, false, { message });
                 }
-                console.log("user found & authenticated");
+                console.log("User found & authenticated");
                 return done(null, user);
               });
             }
@@ -83,14 +83,16 @@ module.exports = (
   passport.use(
     "jwt",
     new JWTstrategy(opts, (jwt_payload, done) => {
-      User.findById({ id: jwt_payload.id })
+      User.findById(jwt_payload.id)
         .then(user => {
           if (user) {
-            console.log("user found in db in passport");
+            const message = `User ID: ${jwt_payload.id} found in database`;
+            console.log(message);
             done(null, user);
           } else {
-            console.log("user not found in db");
-            done(null, false);
+            const message = `User ID: ${jwt_payload.id} not found in database`;
+            console.log(message);
+            done(null, false, {message});
           }
         })
         .catch(err => done(err));
