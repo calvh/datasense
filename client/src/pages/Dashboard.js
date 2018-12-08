@@ -4,8 +4,10 @@ import { Container, Row, Col } from 'reactstrap'
 import Datasets from './../components/Datasets/Datasets'
 import Header from './../components/Header/Header'
 
-function Dashboard() {
-
+class Dashboard extends Component {
+  state = {
+    isLoggedIn: true,
+  }
   // TODO componentWillMount - check JWT - if valid, render, else, go back to login
   // async componentDidMount() {
   //   let accessString = localStorage.getItem('JWT');
@@ -39,20 +41,21 @@ function Dashboard() {
   //       });
   //   }
   // }
-
-  return (
-    <div>
-      <Navigation />
-      <Container>
-        <Header />
-      </Container>
-      <Container>
-        <Row>
-          <Datasets />
-        </Row>
-      </Container>
-    </div>
-  )
+  render() {
+    return (
+      <div>
+        <Navigation isLoggedIn={this.state.isLoggedIn} />
+        <Container>
+          <Header />
+        </Container>
+        <Container>
+          <Row>
+            <Datasets />
+          </Row>
+        </Container>
+      </div>
+    )
+  }
 }
 
 export default Dashboard
