@@ -19,7 +19,7 @@ export default props => {
           <a href="#" className="LinkUps">
             Update
           </a>
-          <a href="#" className="LinkUps">
+          <a href="Displaydata/" className="LinkUps">
             View
           </a>
         </span>
