@@ -3,15 +3,15 @@ import './Slider.css';
 
 export default props => {
 
-  var style1 = {
+  const style1 = {
     backgroundImage: 'url("https://images.unsplash.com/photo-1536917802625-4427dfe13a91?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=bbc0f570acf0b45569a972c396c6bcbe&auto=format&fit=crop&w=1890&q=80")'
   }
 
-  var style2 = {
+  const style2 = {
     backgroundImage: 'url("https://images.unsplash.com/photo-1536286053831-52e1354eb5b7?ixlib=rb-0.3.5&s=5853d66c8f74e20f8e29eac13ec044a8&auto=format&fit=crop&w=1350&q=80")'
   }
 
-  var style3 = {
+  const style3 = {
     backgroundImage: 'url("https://source.unsplash.com/szFUQoyvrxM/1920x1080")'
   }
 
@@ -48,13 +48,13 @@ export default props => {
       </div>
     </div>
 
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
+    <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="sr-only">Previous</span>
         </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
+    <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <span className="sr-only">Next</span>
         </a>
 
   </div>

@@ -1,7 +1,7 @@
 module.exports = (router, db, passport) => {
-  const Dataset = db.Dataset;
+  const User = db.User;
 
-  router.put("/datasets/:id", (req, res, next) => {
+  router.delete("/users/:id", (req, res, next) => {
     passport.authenticate("jwt", { session: false }, (err, user, info) => {
       if (err) {
         return res.status(400).send({ err, info });
@@ -10,8 +10,8 @@ module.exports = (router, db, passport) => {
         return res.status(404).send({ info });
       }
 
-      Dataset.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        .then(dbDataset => res.json(dbDataset))
+      User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        .then(dbUser => res.json(dbUser))
         .catch(err => res.status(500).send(err));
     })(req, res, next);
   });

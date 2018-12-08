@@ -30,7 +30,7 @@ class UploadModal extends Component {
     const updateMessage = (msg) => {
       this.setState({uploadMessage: msg})
     }
-
+    console.log(files);
     updateMessage(files[0].name);
 
     this.setState(function(state) {

@@ -1,5 +1,7 @@
 module.exports = (router, db, passport) => {
-  // Get Route on API Dataset
+  const User = db.User;
+  const Dataset = db.Dataset;
+
   router.delete("/datasets/:id", (req, res, next) => {
     passport.authenticate(
       "jwt",
@@ -8,47 +10,22 @@ module.exports = (router, db, passport) => {
       },
       (err, user, info) => {
         if (err) {
-          console.log(err);
+          return res.status(400).send({ err, info });
         }
-        if (info != undefined) {
-          console.log(info.message);
-          res.send(info.message);
-        } else {
-          db.User.findById(user.id).then(user => {
-            if (user != undefined) {
-              db.Dataset.findById({
-                _id: req.params.id,
-              })
-                .then(dbDataset => dbDataset.remove())
-                .then(dbDataset => res.json(dbDataset))
-                .catch(err => res.status(422).json(err));
-            } else {
-                db.User.findById(user.id).then(user => {
-                    if (user != undefined) {
-
-                        db.Dataset.findById({
-                                _id: req.params.id
-                            }).then(dbDataset => dbDataset.remove())
-                            .then(dbDataset => res.json(dbDataset))
-                            .then(function (dbDataSet) {
-                                return db.User.findOneAndUpdate({
-                                    _id: user.id
-                                }, {
-                                    $pull: {
-                                        datasets: dbDataSet._id
-                                    }
-                                });
-                            }).catch(err => res.status(422).json(err));
-
-
-                    } else {
-                        console.log('User not found');
-                        res.status(404).json('User not found');
-                    }
-                });
-            }
-          });
+        if (!user) {
+          return res.status(404).send({ info });
         }
+
+        const datasetId = req.params.id;
+
+        return Promise.all([
+          Dataset.findByIdAndDelete(datasetId),
+          User.findByIdAndUpdate(user._id, {
+            $pull: { datasets: datasetId },
+          }),
+        ])
+          .then(([dbDataset, dbUser]) => res.json(dbDataset))
+          .catch(err => res.status(500).send(err));
       }
     )(req, res, next);
   });

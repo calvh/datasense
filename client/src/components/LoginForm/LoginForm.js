@@ -1,44 +1,39 @@
-import React, { Component } from 'react'
-import './LoginForm.css'
-import axios from 'axios'
+import React, { Component } from "react";
+import "./LoginForm.css";
+import API from "../../utils/API";
 
 class LoginForm extends Component {
   state = {
-    email: '',
-    password: '',
-  }
+    email: "",
+    password: "",
+  };
 
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
-    })
-  }
+    });
+  };
 
   loginUser = e => {
-    e.preventDefault()
-    if (this.state.email === '' || this.state.password === '') {
+    e.preventDefault();
+    if (this.state.email === "" || this.state.password === "") {
       // TODO implement error display
     } else {
-      axios
-        // .post('http://localhost:3001/auth/login', {
-        .post('/auth/login', {
-          email: this.state.email,
-          password: this.state.password,
-        })
+      API.loginUser(this.state.email, this.state.password)
         .then(response => {
-          console.log(response.data)
+          console.log(response.data);
           if (!response.data.token) {
             // TODO implement error dipslay
           } else {
-            localStorage.setItem('JWT', response.data.token)
-            this.props.history.push('/dashboard')
+            localStorage.setItem("JWT", response.data.token);
+            this.props.history.push("/dashboard");
           }
         })
-        .catch(error => {
-          console.log(error.data)
-        })
+        .catch(err => {
+          console.log(err.data);
+        });
     }
-  }
+  };
 
   render() {
     return (
@@ -66,9 +61,11 @@ class LoginForm extends Component {
                   id="emailLogin"
                   required=""
                   value={this.state.email}
-                  onChange={this.handleChange('email')}
+                  onChange={this.handleChange("email")}
                 />
-                <div className="invalid-feedback">Oops, you missed this one.</div>
+                <div className="invalid-feedback">
+                  Oops, you missed this one.
+                </div>
               </div>
               <div className="form-group">
                 <label>Password</label>
@@ -79,19 +76,23 @@ class LoginForm extends Component {
                   required=""
                   autoComplete="new-password"
                   value={this.state.password}
-                  onChange={this.handleChange('password')}
+                  onChange={this.handleChange("password")}
                 />
                 <div className="invalid-feedback">Enter your password too!</div>
               </div>
-              <button type="submit" className="btn btn-success btn-lg float-right" id="btnLogin">
+              <button
+                type="submit"
+                className="btn btn-success btn-lg float-right"
+                id="btnLogin"
+              >
                 Login
               </button>
             </form>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default LoginForm
+export default LoginForm;
