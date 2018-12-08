@@ -31,7 +31,7 @@ class UploadModal extends Component {
       this.setState({uploadMessage: msg})
     }
     console.log(files);
-    updateMessage(files[0].name);
+    // updateMessage(files[0].name);
 
     this.setState(function(state) {
       return {
