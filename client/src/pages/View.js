@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import Navigation from "./../components/Navigation/Navigation";
 import { Container, Row, Col } from "reactstrap";
-import Charts from "../components/Charts/Charts";
+//import Charts from "../components/Charts/Charts";
 
 class View extends Component {
   state = {
-    accessString: "",
     isLoggedIn: false,
   };
 
@@ -17,19 +16,21 @@ class View extends Component {
       });
     } else {
       this.setState({
-        accessString,
         isLoggedIn: true,
       });
     }
   }
 
+//  dashboard/datasets/:id
   render() {
     return (
       <div>
         <Navigation isLoggedIn={this.state.isLoggedIn} />
         <Container fluid>
           <Row>
-            <Charts />
+            {/* TODO: create 2 sections: 1 for input data and 2nd for charts display */}
+            {/* <Charts /> */}
+            display here
           </Row>
         </Container>
       </div>

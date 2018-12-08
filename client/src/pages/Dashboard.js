@@ -4,6 +4,11 @@ import { Container, Row, Col } from "reactstrap";
 import Datasets from "./../components/Datasets/Datasets";
 import Header from "./../components/Header/Header";
 import API from "../utils/API";
+import DisplayData from "../../src/components/DisplayData/DisplayData";
+import DeleteDatasetBtn from "../../src/components/DisplayData/DeleteDatasetBtn";
+import UpdateDatasetBtn from "../../src/components/DisplayData/UpdateDatasetBtn";
+import ViewDatasetBtn from "../../src/components/DisplayData/ViewDatasetBtn";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 class Dashboard extends Component {
   state = {
@@ -47,19 +52,26 @@ class Dashboard extends Component {
     const testDataset = { name: projectName, xVals, yVals };
 
     API.createDataset(accessString, testDataset)
-      .then(response => {
-        console.log(response.data);
+      .then(response => {        
+        console.log(this.state);
         this.loadDatasets();
+        console.log(response.data);
+        console.log("state: ")
+        console.log(this.state);
       })
       .catch(err => console.log(err));
   };
 
-  updateDataset = datasetId => {
+  updateDataset = event => {
+    event.preventDefault();
+    //grab id from the event that invoked the function
+    let datasetId = event.target.id;
     const accessString = localStorage.getItem("JWT");
     // TODO where do updates come from?
     const projectName = "Updated dataset";
     const xVals = [[4], [5], [6]];
     const yVals = [[3], [5], [7]];
+    // x = [4, 5, 6]
     const updatedDataset = { name: projectName, xVals, yVals };
 
     API.updateDataset(accessString, datasetId, updatedDataset)
@@ -70,7 +82,11 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   };
 
-  deleteDataset = datasetId => {
+  deleteDataset = event => {
+    event.preventDefault();
+    //grab id from the event that invoked the function
+    let datasetId = event.target.id;
+
     const accessString = localStorage.getItem("JWT");
     API.deleteDataset(accessString, datasetId)
       .then(response => {
@@ -78,28 +94,6 @@ class Dashboard extends Component {
         this.loadDatasets();
       })
       .catch(err => console.log(err));
-  };
-
-  renderDataset = dataset => {
-    // TODO change to proper component
-    return (
-      <Row key={dataset._id}>
-        <div>{dataset._id}</div>
-        <div>{dataset.name}</div>
-        <button
-          className="btn btn-sm"
-          onClick={() => this.updateDataset(dataset._id)}
-        >
-          Update Dataset
-        </button>
-        <button
-          className="btn btn-sm"
-          onClick={() => this.deleteDataset(dataset._id)}
-        >
-          Delete Dataset
-        </button>
-      </Row>
-    );
   };
 
   render() {
@@ -115,10 +109,35 @@ class Dashboard extends Component {
         </Container>
         <Container>
           <Row>
-            {this.state.datasets.map(dataset => this.renderDataset(dataset))}
-
             {/* // TODO pass names, dataset IDs (as keys) of this.state.datasets to the Datasets component */}
-            <Datasets />
+            <Datasets>
+                {this.state.datasets.map((dataset, i) => {
+                  return (
+                  <DisplayData datasetname={dataset.name} > 
+                      <DeleteDatasetBtn 
+                        onClick = {this.deleteDataset}
+                        key = {`delete${i}`}
+                        id = {dataset._id}
+                      />
+                      
+                      <ViewDatasetBtn 
+                        // add link component route to view.js page
+                        //pass state from one sibling component to next
+                        onClick = {this.ViewDataset}
+                        key = {`view${i}`}
+                        id = {dataset._id}
+                      />
+
+                      <UpdateDatasetBtn 
+                        onClick = {this.updateDataset}
+                        key = {`update${i}`}
+                        id = {dataset._id}
+                      />
+                  </DisplayData>
+                )
+                }
+              )}
+            </Datasets>
           </Row>
         </Container>
       </div>
