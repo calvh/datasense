@@ -7,14 +7,29 @@ module.exports = db => {
         required: true,
       },
 
-      yVals: {
+      dataPoints: {
         type: [[Number]],
         required: true,
       },
 
-      xVals: {
-        type: [[Number]],
-        required: true,
+      notes: {
+        type: String,
+      },
+
+      reference: {
+        type: String,
+      },
+
+      source: {
+        type: String,
+      },
+
+      xLabel: {
+        type: String,
+      },
+
+      yLabel: {
+        type: String,
       },
     },
 
