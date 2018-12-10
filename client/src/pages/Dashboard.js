@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import Navigation from "./../components/Navigation/Navigation";
 import { Container, Row, Col } from "reactstrap";
-import Datasets from "./../components/Datasets/Datasets";
-import Header from "./../components/Header/Header";
+import Navigation from "../components/Navigation/Navigation";
+import DatasetList from "../components/DatasetList/DatasetList";
+import Header from "../components/Header/Header";
 import API from "../utils/API";
-import DisplayData from "../../src/components/DisplayData/DisplayData";
-import DeleteDatasetBtn from "../../src/components/DisplayData/DeleteDatasetBtn";
-import UpdateDatasetBtn from "../../src/components/DisplayData/UpdateDatasetBtn";
-import ViewDatasetBtn from "../../src/components/DisplayData/ViewDatasetBtn";
+import {DatasetRow, DeleteDatasetBtn, ViewDatasetBtn, UpdateDatasetBtn} from "../components/DatasetRow";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 
 class Dashboard extends Component {
@@ -19,9 +16,6 @@ class Dashboard extends Component {
   componentDidMount() {
     const accessString = localStorage.getItem("JWT");
     if (!accessString) {
-      this.setState({
-        isLoggedIn: false,
-      });
       this.props.history.push("/login");
     } else {
       this.setState({
@@ -52,27 +46,23 @@ class Dashboard extends Component {
     const testDataset = { name: projectName, xVals, yVals };
 
     API.createDataset(accessString, testDataset)
-      .then(response => {        
-        console.log(this.state);
-        this.loadDatasets();
+      .then(response => {
         console.log(response.data);
-        console.log("state: ")
-        console.log(this.state);
+        this.loadDatasets();
       })
       .catch(err => console.log(err));
   };
 
-  updateDataset = event => {
+  updateDataset = (event, datasetId) => {
     event.preventDefault();
-    //grab id from the event that invoked the function
-    let datasetId = event.target.id;
     const accessString = localStorage.getItem("JWT");
+
     // TODO where do updates come from?
-    const projectName = "Updated dataset";
-    const xVals = [[4], [5], [6]];
-    const yVals = [[3], [5], [7]];
-    // x = [4, 5, 6]
-    const updatedDataset = { name: projectName, xVals, yVals };
+    const updatedDataset = {
+      name: "Updated dataset",
+      xVals: [[4], [5], [6]],
+      yVals: [[3], [5], [7]],
+    };
 
     API.updateDataset(accessString, datasetId, updatedDataset)
       .then(response => {
@@ -82,12 +72,10 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   };
 
-  deleteDataset = event => {
+  deleteDataset = (event, datasetId) => {
     event.preventDefault();
-    //grab id from the event that invoked the function
-    let datasetId = event.target.id;
-
     const accessString = localStorage.getItem("JWT");
+
     API.deleteDataset(accessString, datasetId)
       .then(response => {
         console.log(response.data);
@@ -103,41 +91,44 @@ class Dashboard extends Component {
         <Navigation isLoggedIn={this.state.isLoggedIn} />
         <Container>
           <Header />
-          <button className="btn btn-sm" onClick={this.createDataset}>
-            Create Sample Dataset
-          </button>
         </Container>
         <Container>
           <Row>
             {/* // TODO pass names, dataset IDs (as keys) of this.state.datasets to the Datasets component */}
-            <Datasets>
-                {this.state.datasets.map((dataset, i) => {
-                  return (
-                  <DisplayData datasetname={dataset.name} > 
-                      <DeleteDatasetBtn 
-                        onClick = {this.deleteDataset}
-                        key = {`delete${i}`}
-                        id = {dataset._id}
-                      />
-                      
-                      <ViewDatasetBtn 
-                        // add link component route to view.js page
-                        //pass state from one sibling component to next
-                        onClick = {this.ViewDataset}
-                        key = {`view${i}`}
-                        id = {dataset._id}
-                      />
+            <DatasetList>
+              <button className="btn btn-sm" onClick={this.createDataset}>
+                Create Sample Dataset
+              </button>
+              {this.state.datasets.map(dataset => {
+                return (
+                  <DatasetRow
+                    datasetName={dataset.name}
+                    key={`display-${dataset._id}`}
+                  >
+                    <ViewDatasetBtn
+                      key={`view-${dataset._id}`}
+                      datasetId={dataset._id}
+                      onClick={e =>
+                        this.props.history.push(
+                          `/dashboard/view/${dataset._id}`
+                        )
+                      }
+                    />
 
-                      <UpdateDatasetBtn 
-                        onClick = {this.updateDataset}
-                        key = {`update${i}`}
-                        id = {dataset._id}
-                      />
-                  </DisplayData>
-                )
-                }
-              )}
-            </Datasets>
+                    <UpdateDatasetBtn
+                      onClick={e => this.updateDataset(e, dataset._id)}
+                      datasetId={dataset._id}
+                      key={`update-${dataset._id}`}
+                    />
+
+                    <DeleteDatasetBtn
+                      onClick={e => this.deleteDataset(e, dataset._id)}
+                      key={`delete-${dataset._id}`}
+                    />
+                  </DatasetRow>
+                );
+              })}
+            </DatasetList>
           </Row>
         </Container>
       </div>
