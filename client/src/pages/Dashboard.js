@@ -4,7 +4,13 @@ import Navigation from "../components/Navigation/Navigation";
 import DatasetList from "../components/DatasetList/DatasetList";
 import Header from "../components/Header/Header";
 import API from "../utils/API";
-import {DatasetRow, DeleteDatasetBtn, ViewDatasetBtn, UpdateDatasetBtn} from "../components/DatasetRow";
+import SampleDatasets from "../utils/SampleDatasets";
+import {
+  DatasetRow,
+  DeleteDatasetBtn,
+  ViewDatasetBtn,
+  UpdateDatasetBtn,
+} from "../components/DatasetRow";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 
 class Dashboard extends Component {
@@ -40,12 +46,8 @@ class Dashboard extends Component {
   createDataset = data => {
     const accessString = localStorage.getItem("JWT");
     // TODO replace testDataset with actual data
-    const projectName = "Test dataset";
-    const xVals = [[1], [2], [3]];
-    const yVals = [[3], [5], [7]];
-    const testDataset = { name: projectName, xVals, yVals };
 
-    API.createDataset(accessString, testDataset)
+    API.createDataset(accessString, SampleDatasets.getRandomDataset())
       .then(response => {
         console.log(response.data);
         this.loadDatasets();
@@ -53,18 +55,27 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   };
 
+  loadSampleDatasets = () => {
+    const accessString = localStorage.getItem("JWT");
+    Promise.all(
+      SampleDatasets.getAllSampleDatasets().map(sampleDataset =>
+        API.createDataset(accessString, sampleDataset)
+      )
+    )
+      .then(() => this.loadDatasets())
+      .catch(err => console.log(err));
+  };
+
   updateDataset = (event, datasetId) => {
     event.preventDefault();
     const accessString = localStorage.getItem("JWT");
 
-    // TODO where do updates come from?
-    const updatedDataset = {
-      name: "Updated dataset",
-      xVals: [[4], [5], [6]],
-      yVals: [[3], [5], [7]],
-    };
-
-    API.updateDataset(accessString, datasetId, updatedDataset)
+    // TODO replace testDataset with actual data
+    API.updateDataset(
+      accessString,
+      datasetId,
+      SampleDatasets.getRandomDataset()
+    )
       .then(response => {
         console.log(response.data);
         this.loadDatasets();
@@ -96,6 +107,9 @@ class Dashboard extends Component {
           <Row>
             {/* // TODO pass names, dataset IDs (as keys) of this.state.datasets to the Datasets component */}
             <DatasetList>
+              <button className="btn btn-sm" onClick={this.loadSampleDatasets}>
+                Load sample datasets
+              </button>
               <button className="btn btn-sm" onClick={this.createDataset}>
                 Create Sample Dataset
               </button>

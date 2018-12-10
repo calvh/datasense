@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import Navigation from "./../components/Navigation/Navigation";
 import { Container, Row, Col } from "reactstrap";
 import API from "../utils/API";
-import MLR from "../utils/MLR";
-import utils from "../utils/utils";
+import Stats from "../utils/Stats";
 import { Scatter } from "react-chartjs-2";
 import Codeblock from "../components/Codeblock";
 import Prism from "prismjs";
@@ -13,6 +12,7 @@ import { InlineMath, BlockMath } from "react-katex";
 class View extends Component {
   state = {
     isLoggedIn: false,
+    model: {},
     dataset: {},
     chartOptions: {},
     chartData: {},
@@ -30,20 +30,8 @@ class View extends Component {
       });
 
       this.loadDataset()
-        .then(() =>
-          this.loadModel(this.state.dataset.xVals, this.state.dataset.yVals)
-        )
-        .then(model =>
-          this.loadChart(
-            utils.convertToXYPoints(
-              this.state.dataset.xVals,
-              this.state.dataset.yVals
-            ),
-            this.state.dataset.xVals.map(xVal => {
-              return { x: xVal[0], y: MLR.predict(model, xVal) };
-            })
-          )
-        )
+        .then(() => this.loadModel(this.state.dataset.dataPoints))
+        .then(() => this.loadChart(this.state.dataset, this.state.model))
         .then(() => Prism.highlightAll())
         .catch(err => console.log(err));
     }
@@ -56,38 +44,67 @@ class View extends Component {
         this.setState({
           dataset: response.data,
         });
-        return response.data;
       })
       .catch(err => console.log(err));
   };
 
-  loadModel = (xVals, yVals) => {
-    const model = MLR.generateModel(xVals, yVals);
+  loadModel = dataPoints => {
+    const model = Stats.generateSimpleLinearModel(dataPoints);
     this.setState({ model });
-    return model;
   };
 
-  getPredictedDatapoints = (model, xVals) => {};
-
-  loadChart = (actualDatapoints, predictedDataPoints) => {
+  loadChart = (dataset, model) => {
+    const actualDataPoints = Stats.convertToXYPoints(dataset.dataPoints);
+    const predictedDataPoints = dataset.dataPoints.map(dataPoint => {
+      return {
+        x: dataPoint[0],
+        y: model.lineFunction(dataPoint[0]),
+      };
+    });
     const chartData = {
       datasets: [
         {
-          data: actualDatapoints,
+          data: actualDataPoints,
           showLine: false,
           label: "Actual",
+          lineTension: 0.1,
+          backgroundColor: "rgba(75,192,192,0.4)",
+          borderColor: "rgba(75,192,192,1)",
+          borderCapStyle: "butt",
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: "miter",
+          pointBorderColor: "rgba(75,192,192,1)",
+          // pointBackgroundColor: '#fff',
+          pointBorderWidth: 1,
+          pointHoverRadius: 10,
+          pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointHoverBorderWidth: 2,
+          pointRadius: 5,
+          pointHitRadius: 5,
         },
         {
           data: predictedDataPoints,
           type: "line",
           label: "Predicted",
           showLine: true,
+          pointRadius: 0,
           fill: false,
+          backgroundColor: "rgba(255,99,132,0.2)",
+          borderColor: "rgba(255,99,132,1)",
+          borderWidth: 1,
+          hoverBackgroundColor: "rgba(255,99,132,0.4)",
+          hoverBorderColor: "rgba(255,99,132,1)",
         },
       ],
     };
 
     const chartOptions = {
+      title: {
+        display: true,
+        text: dataset.name,
+      },
       responsive: true,
       scales: {
         xAxes: [
@@ -98,7 +115,7 @@ class View extends Component {
             },
             scaleLabel: {
               display: true,
-              labelString: "X",
+              labelString: dataset.xLabel,
               fontColor: "red",
             },
           },
@@ -111,7 +128,7 @@ class View extends Component {
             },
             scaleLabel: {
               display: true,
-              labelString: "Y",
+              labelString: dataset.yLabel,
               fontColor: "red",
             },
           },
@@ -130,62 +147,68 @@ class View extends Component {
       <div>
         <Navigation isLoggedIn={this.state.isLoggedIn} />
         <Container>
-          {this.state.dataset.xVals ? (
+          {this.state.dataset.dataPoints ? (
             <Row>
               <Col>
-                <Row>
-                  <Col>
-                    <h2>Data table</h2>
-                    <table>
-                      <tbody className="d-flex flex-column align-content-center">
-                        <tr>
-                          <th>x</th>
-                          <th>y</th>
+                <Col>
+                  <h2>Dataset</h2>
+                  <p>Name: {this.state.dataset.name}</p>
+                  <p>Created at: {this.state.dataset.createdAt}</p>
+                  <p>Updated at: {this.state.dataset.updatedAt}</p>
+                  <p>
+                    Number of data points:{" "}
+                    {this.state.dataset.dataPoints.length}
+                  </p>
+                  <p>Reference: {this.state.dataset.reference}</p>
+                  <p>
+                    Source: <a href={this.state.dataset.source}>URL</a>
+                  </p>
+                  <p>Notes: {this.state.dataset.notes}</p>
+                </Col>
+                <Col>
+                  <h2>Data table</h2>
+                  <table className="table table-bordered table-hover table-dark table-sm">
+                    <thead className="thead-dark">
+                      <tr>
+                        <th>x</th>
+                        <th>y</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.dataset.dataPoints.map((dataPoint, i) => (
+                        <tr key={`datapoint-${i}`}>
+                          <td>{dataPoint[0]}</td>
+                          <td>{dataPoint[1]}</td>
                         </tr>
-
-                        {this.state.dataset.xVals.map((currVal, i) => (
-                          <tr key={i}>
-                            <td>{currVal}</td>
-                            <td>{this.state.dataset.yVals[i]}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <h2>Model</h2>
-                    <Codeblock code={this.state.model} language="javascript" />
-                  </Col>
-                </Row>
+                      ))}
+                    </tbody>
+                  </table>
+                </Col>
               </Col>
               <Col>
-                <Row>
-                  <Col>
-                    <h2>Equation</h2>
-                    {this.state.model ? (
-                      <BlockMath
-                        math={`y=${this.state.model.weights[
-                          this.state.model.weights.length - 1
-                        ][0].toFixed(
-                          2
-                        )}+${this.state.model.weights[0][0].toFixed(2)}x_{1}`}
-                      />
-                    ) : (
-                      <h3>No equation</h3>
-                    )}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <h2>Chart</h2>
-                    <Scatter
-                      data={this.state.chartData}
-                      options={this.state.chartOptions}
+                <Col>
+                  <h2>Model</h2>
+                  <Codeblock code={this.state.model} language="javascript" />
+                </Col>
+                <Col>
+                  <h2>Equation</h2>
+                  {this.state.model.intercept ? (
+                    <BlockMath
+                      math={`y=${this.state.model.intercept.toFixed(
+                        3
+                      )}+${this.state.model.slope.toFixed(3)}x_{1}`}
                     />
-                  </Col>
-                </Row>
+                  ) : (
+                    <h3>No equation</h3>
+                  )}
+                </Col>
+                <Col>
+                  <h2>Chart</h2>
+                  <Scatter
+                    data={this.state.chartData}
+                    options={this.state.chartOptions}
+                  />
+                </Col>
               </Col>
             </Row>
           ) : (
