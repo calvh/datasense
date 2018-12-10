@@ -11,11 +11,11 @@ import MLR from "ml-regression-multivariate-linear";
 // y = [[0, 0, 0], [2, 4, 3], [4, 6, 5], [6, 8, 7]];
 
 export default {
-  getModel(xVals, yVals) {
+  generateModel(xVals, yVals) {
     return new MLR(xVals, yVals);
   },
 
-  getPredictedValue(model, yVal) {
-    return model.predict(yVal);
+  predict(model, xVal) {
+    return model.predict(xVal);
   },
 };

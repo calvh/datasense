@@ -14,10 +14,9 @@ module.exports = (router, passport, jwt, jwtConfig) => {
 
         const token = jwt.sign(
           { id: user._id, email: user.email },
-          jwtConfig.secret
+          jwtConfig.secret,
+          { expiresIn: "3h" }
         );
-        console.log("test");
-        console.log(token);
 
         res.status(200).send({
           auth: true,

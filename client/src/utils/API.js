@@ -1,12 +1,5 @@
 import axios from "axios";
 
-const localHostLoginURL = "http://localhost:3001/auth/login";
-const localHostRegisterURL = "http://localhost:3001/auth/register";
-
-const validateJWT = (token) => {
-    return;
-}
-
 export default {
   loginUser(email, password) {
     return axios.post("/auth/login", { email, password });

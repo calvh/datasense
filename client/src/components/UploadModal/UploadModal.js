@@ -64,7 +64,7 @@ class UploadModal extends Component {
     <div
       className="modal fade"
       id="exampleModalCenter"
-      tabindex="-1"
+      tabIndex="-1"
       role="dialog"
       aria-labelledby="exampleModalCenterTitle"
       aria-hidden="true"
@@ -82,7 +82,7 @@ class UploadModal extends Component {
           <div className="modal-body">
             <form>
               <div className="form-group">
-                <label for="projectName">Project Name</label>
+                <label htmlFor="projectName">Project Name</label>
                 <input type="text" className="form-control" id="projectName" placeholder="Enter project name" value={this.state.projectName} onChange={this.nameEntered}/>
               </div>
 
@@ -91,7 +91,7 @@ class UploadModal extends Component {
             </form>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary" onclick={this.uploadData}>
+            <button type="button" className="btn btn-primary" onClick={this.uploadData}>
               Upload Data
             </button>
           </div>
