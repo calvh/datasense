@@ -13,7 +13,7 @@ class View extends Component {
   state = {
     isLoggedIn: false,
     model: {},
-    dataset: {},
+    dataset: false,
     chartOptions: {},
     chartData: {},
   };
@@ -115,7 +115,7 @@ class View extends Component {
             },
             scaleLabel: {
               display: true,
-              labelString: dataset.xLabel,
+              labelString: dataset.headers[0],
               fontColor: "red",
             },
           },
@@ -128,7 +128,7 @@ class View extends Component {
             },
             scaleLabel: {
               display: true,
-              labelString: dataset.yLabel,
+              labelString: dataset.headers[1],
               fontColor: "red",
             },
           },
@@ -147,7 +147,7 @@ class View extends Component {
       <div>
         <Navigation isLoggedIn={this.state.isLoggedIn} />
         <Container>
-          {this.state.dataset.dataPoints ? (
+          {this.state.dataset ? (
             <Row>
               <Col>
                 <Col>
@@ -159,7 +159,6 @@ class View extends Component {
                     Number of data points:{" "}
                     {this.state.dataset.dataPoints.length}
                   </p>
-                  <p>Reference: {this.state.dataset.reference}</p>
                   <p>
                     Source: <a href={this.state.dataset.source}>URL</a>
                   </p>
@@ -170,8 +169,13 @@ class View extends Component {
                   <table className="table table-bordered table-hover table-dark table-sm">
                     <thead className="thead-dark">
                       <tr>
-                        <th>x</th>
-                        <th>y</th>
+                        <th>
+                          X-Axis <br />
+                          {this.state.dataset.headers[0]}
+                        </th>
+                        <th>
+                          Y-Axis <br /> {this.state.dataset.headers[1]}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -212,7 +216,7 @@ class View extends Component {
               </Col>
             </Row>
           ) : (
-            <h3>Empty dataset!</h3>
+            <h3>Loading...</h3>
           )}
         </Container>
       </div>

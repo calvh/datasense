@@ -1,6 +1,6 @@
-import React from 'react'
-import './Header.css'
-import UploadModal from './../UploadModal/UploadModal'
+import React from "react";
+import "./Header.css";
+import UploadModal from "./../UploadModal/UploadModal";
 
 export default props => {
   return (
@@ -14,7 +14,7 @@ export default props => {
         <div
           className="bg-white shadow  p-4 h-100 d-flex align-items-center justify-content-between upload-button"
           data-toggle="modal"
-          data-target="#exampleModalCenter"
+          data-target="#uploadModal"
         >
           <div className="flex-grow-1 d-flex align-items-center">
             <div className="icon text-white bg-violet">
@@ -55,7 +55,7 @@ export default props => {
                   <h4>Upload New Dataset</h4>
                 </li> */}
               </ul>
-              <a href="#" className="btn1-upload" data-toggle="modal" data-target="#exampleModalCenter">
+              <a href="#" className="btn1-upload" data-toggle="modal" data-target="#uploadModal">
                 <span className="btn1-upload-content">Upload New Dataset</span>
                 <span className="icon">
                   <i className="fas fa-upload" />
@@ -77,7 +77,7 @@ export default props => {
                   </span>
                 </li>
                 <li className="col-last">
-                  <h3 className="counter text-right m-t-15">3</h3>
+                  <h3 className="counter text-right m-t-15">{props.totalDatasets}</h3>
                 </li>
                 <li className="col-middle">
                   <h4>Total Datasets</h4>
@@ -87,7 +87,11 @@ export default props => {
           </div>
         </div>
       </div>
-      <UploadModal />
+      <UploadModal
+        createDataset={props.createDataset}
+        updateDataset={props.updateDataset}
+        loadDatasets={props.loadDatasets}
+      />
     </section>
-  )
-}
+  );
+};
