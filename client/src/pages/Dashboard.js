@@ -100,6 +100,7 @@ class Dashboard extends Component {
             createDataset={this.createDataset}
             updateDataset={this.updateDataset}
             loadDatasets={this.loadDatasets}
+            totalDatasets={this.state.datasets.length}
           />
           <Row>
             <Col md="12">
@@ -126,6 +127,7 @@ class Dashboard extends Component {
                 return (
                   <DatasetRow
                     datasetName={dataset.name}
+                    datasetNumPoints={dataset.dataPoints.length}
                     datasetCreatedAt={dataset.createdAt}
                     datasetUpdatedAt={dataset.UpdatedAt}
                     key={`display-${dataset._id}`}

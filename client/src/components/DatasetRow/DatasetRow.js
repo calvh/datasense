@@ -36,7 +36,7 @@ const DatasetRow = props => {
             <span className="count_top">
               <i className="fab fa-connectdevelop" /> Number of Data Points:
             </span>
-            <div className="count">25</div>
+            <div className="count">{props.datasetNumPoints}</div>
           </div>
           <div className="side-2">
             <span className="count_top">
