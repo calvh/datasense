@@ -401,6 +401,13 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+attr-accept@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/attr-accept/-/attr-accept-1.1.3.tgz#48230c79f93790ef2775fcec4f0db0f5db41ca52"
+  integrity sha512-iT40nudw8zmCweivz6j58g+RT33I4KbaIvRUhjNmDwO2WmsQUxFEZZYZ5w3vXe5x5MX9D7mfvA/XaLOZYFR9EQ==
+  dependencies:
+    core-js "^2.5.0"
+
 autoprefixer@7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-7.1.2.tgz#fbeaf07d48fd878e0682bf7cbeeade728adb2b18"
@@ -5919,6 +5926,11 @@ pako@~1.0.5:
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.7.tgz#2473439021b57f1516c82f58be7275ad8ef1bb27"
   integrity sha512-3HNK5tW4x8o5mO8RuHZp3Ydw9icZXx0RANAOMzlMzx7LVXhMJ4mo3MOBpzyd7r/+RUu8BmndP47LXT+vzjtWcQ==
 
+papaparse@^4.6.2:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-4.6.2.tgz#5b2df0296f505f1c9d4c2261f903d3b44866a28d"
+  integrity sha512-P/4p6S6wZyXAjcFPnJAjFn7lxMIkd+23prFELhcbfWswQfg7dG1XJfV8/lKvk5lu5BGSSJZFHSDMejjFcB1feg==
+
 param-case@2.1.x:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/param-case/-/param-case-2.1.1.tgz#df94fd8cf6531ecf75e6bef9a0858fbc72be2247"
@@ -6517,7 +6529,7 @@ promise@8.0.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.0, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
@@ -6715,18 +6727,18 @@ react-dom@^16.0.0:
     prop-types "^15.6.2"
     scheduler "^0.11.2"
 
+react-dropzone@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-8.0.0.tgz#09ecf6973ac8fb598dd2d77c1a5890fe3cafdb83"
+  integrity sha512-k4/Un1LD62NDDRg7Y10Ywb8VBBQ2Gi3yjYJUf38CuMulsENCWrB87QwsTxDIb9gSd5d3tReOpXTprIEf1JdtnA==
+  dependencies:
+    attr-accept "^1.1.3"
+    prop-types "^15.6.2"
+
 react-error-overlay@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-3.0.0.tgz#c2bc8f4d91f1375b3dad6d75265d51cd5eeaf655"
   integrity sha512-XzgvowFrwDo6TWcpJ/WTiarb9UI6lhA4PMzS7n1joK3sHfBBBOQHUc0U4u57D6DWO9vHv6lVSWx2Q/Ymfyv4hw==
-
-react-file-reader@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/react-file-reader/-/react-file-reader-1.1.4.tgz#1838f1f3fa70dcfdef4ef525d74dda3c6312089a"
-  integrity sha512-xTeHFrDIopZpzk4aMZyILzIQbytQ6GCKR32/7kBDzO5lrAr1idbK5PkmpjP4wnT9s5F+TALviuhnWk8UeksddA==
-  dependencies:
-    prop-types "^15.5.0"
-    uuid4 "^1.0.0"
 
 react-katex@^2.0.2:
   version "2.0.2"
@@ -8316,11 +8328,6 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
-
-uuid4@^1.0.0:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/uuid4/-/uuid4-1.1.4.tgz#80fa0618749110bdb8aa47cc2cc2167c6331f4eb"
-  integrity sha512-Gr1q2k40LpF8CokcnQFjPDsdslzJbTCTBG5xQIEflUov431gFkY5KduiGIeKYAamkQnNn4IfdHJbLnl9Bib8TQ==
 
 uuid@^2.0.2:
   version "2.0.3"

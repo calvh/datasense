@@ -5,6 +5,7 @@ module.exports = db => {
       name: {
         type: String,
         required: true,
+        default: `Dataset ${Date.now()}`,
       },
 
       dataPoints: {
@@ -12,23 +13,15 @@ module.exports = db => {
         required: true,
       },
 
+      headers: {
+        type: [String],
+      },
+
       notes: {
         type: String,
       },
 
-      reference: {
-        type: String,
-      },
-
       source: {
-        type: String,
-      },
-
-      xLabel: {
-        type: String,
-      },
-
-      yLabel: {
         type: String,
       },
     },

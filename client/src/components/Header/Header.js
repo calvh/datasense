@@ -1,6 +1,6 @@
-import React from 'react'
-import './Header.css'
-import UploadModal from './../UploadModal/UploadModal'
+import React from "react";
+import "./Header.css";
+import UploadModal from "./../UploadModal/UploadModal";
 
 export default props => {
   return (
@@ -14,7 +14,7 @@ export default props => {
         <div
           className="bg-white shadow  p-4 h-100 d-flex align-items-center justify-content-between upload-button"
           data-toggle="modal"
-          data-target="#exampleModalCenter"
+          data-target="#uploadModal"
         >
           <div className="flex-grow-1 d-flex align-items-center">
             <div className="icon text-white bg-violet">
@@ -87,7 +87,11 @@ export default props => {
           </div>
         </div>
       </div>
-      <UploadModal />
+      <UploadModal
+        createDataset={props.createDataset}
+        updateDataset={props.updateDataset}
+        loadDatasets={props.loadDatasets}
+      />
     </section>
-  )
-}
+  );
+};

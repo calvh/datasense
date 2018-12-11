@@ -3,9 +3,11 @@ const sampleDatasets = [
     name: "Cricket Chirps Vs. Temperature",
     source:
       "https://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/slr/frames/slr02.html",
-    xLabel: "chirps/sec for the striped ground cricket",
-    yLabel: "temperature in degrees Fahrenheit",
-    reference: "The Song of Insects by Dr.G.W. Pierce, Harvard College Press",
+    headers: [
+      "chirps/sec for the striped ground cricket",
+      "temperature in degrees Fahrenheit",
+    ],
+    notes: "The Song of Insects by Dr.G.W. Pierce, Harvard College Press",
     dataPoints: [
       [20, 88.59999847],
       [16, 71.59999847],
@@ -28,10 +30,12 @@ const sampleDatasets = [
     source:
       "https://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/slr/frames/slr03.html",
     name: "Diameter of Sand Granules Vs. Slope on Beach",
-    notes: "The data is for naturally occurring ocean beaches",
-    xLabel: "median diameter (mm) of granules of sand",
-    yLabel: "gradient of beach slope in degrees",
-    reference: "Physical geography by A.M King, Oxford Press, England",
+    headers: [
+      "median diameter (mm) of granules of sand",
+      "gradient of beach slope in degrees",
+    ],
+    notes:
+      "The data is for naturally occurring ocean beaches. Physical geography by A.M King, Oxford Press, England",
     dataPoints: [
       [0.170000002, 0.629999995],
       [0.189999998, 0.699999988],
@@ -49,10 +53,11 @@ const sampleDatasets = [
     source:
       "https://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/slr/frames/slr08.html",
     name: "Pressure and Weight in Cryogenic Flow Meters",
-    xLabel: "pressure (lb/sq in) of liquid nitrogen",
-    yLabel:
+    headers: [
+      "pressure (lb/sq in) of liquid nitrogen",
       "weight in pounds of liquid nitrogen passing through flow meter each second",
-    reference: "Technometrics, Vol. 19, p353-379",
+    ],
+    notes: "Technometrics, Vol. 19, p353-379",
     dataPoints: [
       [75.1, 577.8],
       [74.3, 577],
@@ -91,11 +96,12 @@ const sampleDatasets = [
     source:
       "https://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/slr/frames/slr09.html",
     name: "Ground Water Survey",
-    xLabel: "pH of well water",
-    yLabel: "Bicarbonate (parts per million) of well water",
+    headers: [
+      "pH of well water",
+      "Bicarbonate (parts per million) of well water",
+    ],
     notes:
-      "The data is by water well from a random sample of wells in Northwest Texas.",
-    reference: "Union Carbide Technical Report K/UR-1",
+      "The data is by water well from a random sample of wells in Northwest Texas. Union Carbide Technical Report K/UR-1",
     dataPoints: [
       [7.6, 157],
       [7.1, 174],
@@ -138,10 +144,9 @@ const sampleDatasets = [
     source:
       "https://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/slr/frames/slr10.html",
     name: "Iris Setosa",
-    xLabel: "sepal width (cm)",
-    yLabel: "sepal length (cm)",
-    notes: "The data is for a random sample of the wild flower iris setosa.",
-    reference: "Fisher, R.A.,  Ann. Eugenics, Vol. 7 Part II, p 179-188",
+    headers: ["sepal width (cm)", "sepal length (cm)"],
+    notes:
+      "The data is for a random sample of the wild flower iris setosa. Fisher, R.A., Ann. Eugenics, Vol. 7 Part II, p 179-188",
     dataPoints: [
       [3.5, 5.1],
       [3, 4.9],
