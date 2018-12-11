@@ -1,7 +1,8 @@
 .LinkUps{
-    margin-left: 25px;
+    /* margin-left: 25px; */
     float: right;
     padding:5px;
+    box-shadow:none;
 }
 
 p.a{
