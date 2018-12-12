@@ -96,11 +96,7 @@ class View extends Component {
           showLine: true,
           pointRadius: 0,
           fill: false,
-          backgroundColor: 'rgba(255,99,132,0.2)',
-          borderColor: 'rgba(255,99,132,1)',
-          borderWidth: 1,
-          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-          hoverBorderColor: 'rgba(255,99,132,1)',
+          borderColor: 'red'
         },
       ],
     }
@@ -109,6 +105,7 @@ class View extends Component {
       title: {
         display: true,
         text: dataset.name,
+        fontSize: 20
       },
       responsive: true,
       scales: {
@@ -122,6 +119,7 @@ class View extends Component {
               display: true,
               labelString: dataset.headers[0],
               fontColor: 'red',
+              fontSize: 15
             },
           },
         ],
@@ -135,10 +133,14 @@ class View extends Component {
               display: true,
               labelString: dataset.headers[1],
               fontColor: 'red',
+              fontSize: 15
             },
           },
         ],
       },
+      elements: {
+        radius: 5
+      }
     }
 
     this.setState({
