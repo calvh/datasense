@@ -1,52 +1,51 @@
-import React, { Component } from "react";
-import "./UploadModal.css";
-import Dropzone from "react-dropzone";
-import Papa from "papaparse";
+import React, { Component } from 'react'
+import './UploadModal.css'
+import Dropzone from 'react-dropzone'
+import Papa from 'papaparse'
 
 class UploadModal extends Component {
   state = {
-    datasetName: "",
-    xLabel: "",
-    yLabel: "",
+    datasetName: '',
+    xLabel: '',
+    yLabel: '',
     fileHeaders: true,
     disabled: true,
-    uploadMessage: "file here, or click to select a file",
+    uploadMessage: 'file here, or click to select a file',
     file: {},
-  };
+  }
 
   handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
+    const target = event.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
 
     this.setState({
       [name]: value,
-    });
+    })
 
     this.setState(state => {
-      const datasetNameEntered = state.datasetName.length > 0;
-      return datasetNameEntered ? { disabled: false } : { disabled: true };
-    });
-  };
+      const datasetNameEntered = state.datasetName.length > 0
+      return datasetNameEntered ? { disabled: false } : { disabled: true }
+    })
+  }
 
   onDrop = files => {
     if (files.length === 1)
       this.setState({
         file: files[0],
-        uploadMessage:
-          "another file here or click to select and replace the current file",
-      });
-  };
+        uploadMessage: 'another file here or click to select and replace the current file',
+      })
+  }
 
   onCancel = () => {
     this.setState({
       file: {},
-      uploadMessage: "file here, or click to select a file",
-    });
-  };
+      uploadMessage: 'file here, or click to select a file',
+    })
+  }
 
   uploadData = event => {
-    event.preventDefault();
+    event.preventDefault()
     Papa.parse(this.state.file, {
       dynamic: true,
       skipEmptyLines: true,
@@ -55,42 +54,39 @@ class UploadModal extends Component {
           name: this.state.datasetName,
           // source
           // notes
-        };
+        }
 
         if (this.state.fileHeaders) {
-          newDataset.headers = parseResults.data[0];
-          newDataset.dataPoints = parseResults.data.slice(1);
+          newDataset.headers = parseResults.data[0]
+          newDataset.dataPoints = parseResults.data.slice(1)
         } else {
-          newDataset.headers = [
-            this.state.xLabel ? this.state.xLabel : "X",
-            this.state.yLabel ? this.state.yLabel : "Y",
-          ];
-          newDataset.dataPoints = parseResults.data;
+          newDataset.headers = [this.state.xLabel ? this.state.xLabel : 'X', this.state.yLabel ? this.state.yLabel : 'Y']
+          newDataset.dataPoints = parseResults.data
         }
-        this.props.createDataset(newDataset);
+        this.props.createDataset(newDataset)
       },
-    });
-  };
+    })
+  }
 
   render() {
     const baseStyle = {
-      width: 200,
-      height: 200,
+      width: '100%',
+      height: 80,
       borderWidth: 2,
-      borderColor: "#666",
-      borderStyle: "dashed",
+      borderColor: '#666',
+      borderStyle: 'dashed',
       borderRadius: 5,
-    };
+    }
     const activeStyle = {
-      borderStyle: "solid",
-      borderColor: "#6c6",
-      backgroundColor: "#eee",
-    };
+      borderStyle: 'solid',
+      borderColor: '#6c6',
+      backgroundColor: '#eee',
+    }
     const rejectStyle = {
-      borderStyle: "solid",
-      borderColor: "#c66",
-      backgroundColor: "#eee",
-    };
+      borderStyle: 'solid',
+      borderColor: '#c66',
+      backgroundColor: '#eee',
+    }
 
     return (
       <div
@@ -107,12 +103,7 @@ class UploadModal extends Component {
               <h5 className="modal-title" id="exampleModalLongTitle">
                 Upload New Dataset
               </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -136,7 +127,6 @@ class UploadModal extends Component {
                     checked={this.state.fileHeaders}
                     onChange={this.handleInputChange}
                   />
-                  <br />
                   {this.state.fileHeaders ? (
                     <br />
                   ) : (
@@ -161,10 +151,9 @@ class UploadModal extends Component {
                         value={this.state.yLabel}
                         onChange={this.handleInputChange}
                       />
+                      <br />
                     </React.Fragment>
                   )}
-
-                  <br />
                 </div>
                 {this.state.disabled ? (
                   <div />
@@ -175,22 +164,12 @@ class UploadModal extends Component {
                       onDrop={this.onDrop}
                       onFileDialogCancel={this.onCancel}
                       disabled={this.state.disabled}
-                      style={{ border: "1px line black" }}
+                      style={{ border: '1px line black' }}
                     >
-                      {({
-                        getRootProps,
-                        getInputProps,
-                        isDragActive,
-                        isDragAccept,
-                        isDragReject,
-                      }) => {
-                        let styles = { ...baseStyle };
-                        styles = isDragActive
-                          ? { ...styles, ...activeStyle }
-                          : styles;
-                        styles = isDragReject
-                          ? { ...styles, ...rejectStyle }
-                          : styles;
+                      {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => {
+                        let styles = { ...baseStyle }
+                        styles = isDragActive ? { ...styles, ...activeStyle } : styles
+                        styles = isDragReject ? { ...styles, ...rejectStyle } : styles
 
                         return (
                           <div {...getRootProps()} style={styles}>
@@ -199,26 +178,21 @@ class UploadModal extends Component {
                               {isDragReject ? (
                                 <div>Only single files accepted...</div>
                               ) : (
-                                `${isDragAccept ? "Drop " : "Drag "}` +
-                                this.state.uploadMessage
+                                `${isDragAccept ? 'Drop ' : 'Drag '}` + this.state.uploadMessage
                               )}
                             </div>
                           </div>
-                        );
+                        )
                       }}
                     </Dropzone>
+                    <br />
                     <aside>
                       <h4>Files</h4>
                       {this.state.file.name ? (
                         <ul>
                           <li key={this.state.file.name}>
-                            {this.state.file.name} - {this.state.file.size}{" "}
-                            bytes{" "}
-                            <button
-                              type="button"
-                              className="btn btn-danger"
-                              onClick={this.onCancel}
-                            >
+                            {this.state.file.name} - {this.state.file.size} bytes{' '}
+                            <button type="button" className="btn btn-danger" onClick={this.onCancel}>
                               X
                             </button>
                           </li>
@@ -245,8 +219,7 @@ class UploadModal extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
-
-export default UploadModal;
+export default UploadModal
