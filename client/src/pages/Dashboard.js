@@ -6,7 +6,6 @@ import Header from "../components/Header/Header";
 import API from "../utils/API";
 import DatasetRow from "../components/DatasetRow";
 import SampleDatasets from "../utils/SampleDatasets";
-import { BrowserRouter as Router, Link } from "react-router-dom";
 
 class Dashboard extends Component {
   state = {
@@ -94,7 +93,10 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <Navigation isLoggedIn={this.state.isLoggedIn} />
+        <Navigation
+          isLoggedIn={this.state.isLoggedIn}
+          path={this.props.location.pathname}
+        />
         <Container fluid>
           <Header
             createDataset={this.createDataset}
