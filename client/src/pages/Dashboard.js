@@ -82,11 +82,7 @@ class Dashboard extends Component {
 
   loadSampleDatasets = () => {
     const accessString = localStorage.getItem("JWT");
-    Promise.all(
-      SampleDatasets.getAllSampleDatasets().map(sampleDataset =>
-        API.createDataset(accessString, sampleDataset)
-      )
-    )
+    Promise.all(SampleDatasets.getAllSampleDatasets().map(sampleDataset => API.createDataset(accessString, sampleDataset)))
       .then(() => this.loadDatasets())
       .catch(err => console.log(err));
   };
@@ -133,9 +129,7 @@ class Dashboard extends Component {
                     key={`display-${dataset._id}`}
                     onClickDelete={e => this.deleteDataset(e, dataset._id)}
                     onClickUpdate={e => this.updateDataset(e, dataset._id)}
-                    onClickView={e =>
-                      this.props.history.push(`/dashboard/view/${dataset._id}`)
-                    }
+                    onClickView={e => this.props.history.push(`/dashboard/view/${dataset._id}`)}
                   />
                 );
               })}
