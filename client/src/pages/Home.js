@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import Navigation from './../components/Navigation/Navigation'
-import Slider from './../components/Slider/Slider'
+import React, { Component } from "react";
+import Navigation from "./../components/Navigation/Navigation";
+import Slider from "./../components/Slider/Slider";
 
 class Home extends Component {
   state = {
     accessString: "",
     isLoggedIn: false,
-  }
+  };
 
   componentDidMount() {
     const accessString = localStorage.getItem("JWT");
@@ -25,12 +25,15 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Navigation isLoggedIn={this.state.isLoggedIn} />
+        <Navigation
+          isLoggedIn={this.state.isLoggedIn}
+          path={this.props.location.pathname}
+        />
         <Slider />
         <main id="page-wrap" />
       </div>
-    )
+    );
   }
 }
 
-export default Home
+export default Home;

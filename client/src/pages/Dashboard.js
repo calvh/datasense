@@ -6,7 +6,6 @@ import Header from "../components/Header/Header";
 import API from "../utils/API";
 import DatasetRow from "../components/DatasetRow";
 import SampleDatasets from "../utils/SampleDatasets";
-import { BrowserRouter as Router, Link } from "react-router-dom";
 
 class Dashboard extends Component {
   state = {
@@ -82,7 +81,11 @@ class Dashboard extends Component {
 
   loadSampleDatasets = () => {
     const accessString = localStorage.getItem("JWT");
-    Promise.all(SampleDatasets.getAllSampleDatasets().map(sampleDataset => API.createDataset(accessString, sampleDataset)))
+    Promise.all(
+      SampleDatasets.getAllSampleDatasets().map(sampleDataset =>
+        API.createDataset(accessString, sampleDataset)
+      )
+    )
       .then(() => this.loadDatasets())
       .catch(err => console.log(err));
   };
@@ -90,7 +93,10 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <Navigation isLoggedIn={this.state.isLoggedIn} />
+        <Navigation
+          isLoggedIn={this.state.isLoggedIn}
+          path={this.props.location.pathname}
+        />
         <Container fluid>
           <Header
             createDataset={this.createDataset}
@@ -129,7 +135,9 @@ class Dashboard extends Component {
                     key={`display-${dataset._id}`}
                     onClickDelete={e => this.deleteDataset(e, dataset._id)}
                     onClickUpdate={e => this.updateDataset(e, dataset._id)}
-                    onClickView={e => this.props.history.push(`/dashboard/view/${dataset._id}`)}
+                    onClickView={e =>
+                      this.props.history.push(`/dashboard/view/${dataset._id}`)
+                    }
                   />
                 );
               })}

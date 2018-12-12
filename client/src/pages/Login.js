@@ -27,7 +27,10 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <Navigation isLoggedIn={this.state.isLoggedIn} />
+        <Navigation
+          isLoggedIn={this.state.isLoggedIn}
+          path={this.props.location.pathname}
+        />
         <Container fluid>
           <Row>
             <Col md="3" />
