@@ -47,9 +47,7 @@ class LoginForm extends Component {
     this.setState({ emailValid, 
                     passwordValid,
                     formErrors
-                  });             
-                    
-   
+                  });   
   }
   validateForm() {
     this.setState({formValid: this.state.emailValid && this.state.passwordValid});
@@ -93,8 +91,11 @@ class LoginForm extends Component {
           </div>
           <div className="card-body">
             <form
-              className="form"  role="form" autoComplete="off"
-              id="formLogin" noValidate=""
+              className="form"  
+              role="form" 
+              autoComplete="off"
+              id="formLogin" 
+              noValidate=""
               method="POST"
               onSubmit={this.loginUser}
             >
