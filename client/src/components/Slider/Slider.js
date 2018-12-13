@@ -28,24 +28,19 @@ export default props => {
     <div className="carousel-inner" role="listbox"> 
       <div className="carousel-item active" style={style1}>
         <div className="carousel-caption d-none d-md-block">
-          <h2 className="display-4">First Slide</h2>
-          <p className="lead">This is a description for the first slide.</p>
+          <h2 className="display-4">Welcome to DataSense</h2>
+          <p className="lead">Create and maintain your own Dataset portfolio.</p>
         </div>
       </div>
      
       <div className="carousel-item" style={style2}>
         <div className="carousel-caption d-none d-md-block">
-          <h2 className="display-4">Second Slide</h2>
-          <p className="lead">This is a description for the second slide.</p>
+          <h2 className="display-4">Upload customised dataset</h2>
+          <p className="lead">Generate chart, model and data equation .</p>
         </div>
       </div>
-      
-      <div className="carousel-item" style={style3}>
-        <div className="carousel-caption d-none d-md-block">
-          <h2 className="display-4">Third Slide</h2>
-          <p className="lead">This is a description for the third slide.</p>
-        </div>
-      </div>
+     
+     
     </div>
 
     <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
