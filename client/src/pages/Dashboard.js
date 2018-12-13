@@ -81,11 +81,7 @@ class Dashboard extends Component {
 
   loadSampleDatasets = () => {
     const accessString = localStorage.getItem("JWT");
-    Promise.all(
-      SampleDatasets.getAllSampleDatasets().map(sampleDataset =>
-        API.createDataset(accessString, sampleDataset)
-      )
-    )
+    Promise.all(SampleDatasets.getAllSampleDatasets().map(sampleDataset => API.createDataset(accessString, sampleDataset)))
       .then(() => this.loadDatasets())
       .catch(err => console.log(err));
   };
@@ -93,18 +89,16 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        <Navigation
-          isLoggedIn={this.state.isLoggedIn}
-          path={this.props.location.pathname}
-        />
+        <Navigation isLoggedIn={this.state.isLoggedIn} path={this.props.location.pathname} />
         <Container fluid>
           <Header
             createDataset={this.createDataset}
             updateDataset={this.updateDataset}
             loadDatasets={this.loadDatasets}
+            loadSampleDatasets={this.loadSampleDatasets}
             totalDatasets={this.state.datasets.length}
           />
-          <Row>
+          {/* <Row>
             <Col md="12">
               <button className="btn btn-sm" onClick={this.loadSampleDatasets}>
                 Load sample datasets
@@ -113,7 +107,7 @@ class Dashboard extends Component {
                 Create Sample Dataset
               </button>
             </Col>
-          </Row>
+          </Row> */}
           <Row>
             <Col md="12">
               <h2 className="header-line">
@@ -135,9 +129,7 @@ class Dashboard extends Component {
                     key={`display-${dataset._id}`}
                     onClickDelete={e => this.deleteDataset(e, dataset._id)}
                     onClickUpdate={e => this.updateDataset(e, dataset._id)}
-                    onClickView={e =>
-                      this.props.history.push(`/dashboard/view/${dataset._id}`)
-                    }
+                    onClickView={e => this.props.history.push(`/dashboard/view/${dataset._id}`)}
                   />
                 );
               })}
