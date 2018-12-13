@@ -113,3 +113,23 @@ color:black;
   background-color:#dc3545 !important;
   color:#fff !important;
 }
+
+.nav-link-item{
+  box-shadow:none;
+  font-size:20px;
+  margin-right:40px;
+}
+
+.navbar-brand{
+  box-shadow:none;
+}
+
+#logo {
+  width: 80px;
+}
+
+.title{
+font-size: 30px;
+margin-left: 5px;
+vertical-align: middle;
+}

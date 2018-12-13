@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Settings from "./pages/Settings";
 import View from "./pages/View";
 
 class App extends Component {
@@ -15,7 +14,6 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/settings" component={Settings} />
           <Route exact path="/dashboard/view/:id" component={View} />
           <Route
             exact

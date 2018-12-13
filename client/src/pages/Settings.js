@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Navigation from "./../components/Navigation/Navigation";
 import { Container, Row, Col } from "reactstrap";
 
+// ! Page not implemented yet
+
 class Settings extends Component {
   state = {
     accessString: "",

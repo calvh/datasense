@@ -1,40 +1,67 @@
-import React, { Component } from 'react'
-import './Navigation.css'
-import { slide as Menu } from 'react-burger-menu'
-import logo from './../../Data-Sense-Logo.svg'
+import React, { Component } from "react";
+import "./Navigation.css";
+import logo from "./../../DataSenseLogo-NoFont.svg";
 
-function Navigation(props) {
-  if (props.isLoggedIn) {
+class Navigation extends Component {
+  render() {
+    const inactiveLinkClasses = "nav-link nav-link-item";
+    const activeLinkClasses = "nav-link nav-link-item active";
+
     return (
-      <Menu>
-        <h2>
-          <img className="center-block heroku" src={logo} alt="logo" />
-        </h2>
-        <a id="dashboard" className="menu-item" href="/dashboard">
-          <i className="fas fa-chart-line" /> Dashboard
-        </a>
-        <a id="settings" className="menu-item" href="/settings">
-          <i className="fas fa-cogs" /> Settings
-        </a>
-        <a id="logout" className="menu-item" href="/logout">
-          <i className="fas fa-sign-out-alt" /> Logout
-        </a>
-      </Menu>
-    )
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        {this.props.isLoggedIn ? (
+          <a className="navbar-brand" href="/dashboard">
+            <div id="logo">
+              {" "}
+              <img src={logo} alt="logo" /> <span className="title">DataSense</span>
+            </div>
+          </a>
+        ) : (
+          <a className="navbar-brand" href="/">
+            <div id="logo">
+              {" "}
+              <img src={logo} alt="logo" /> <span className="title">DataSense</span>
+            </div>
+          </a>
+        )}
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+          <span className="navbar-toggler-icon" />
+        </button>
+
+        <div className="collapse navbar-collapse justify-content-end" id="navbar">
+          <ul className="navbar-nav mt-2 mt-lg-0">
+            {this.props.isLoggedIn ? (
+              <React.Fragment>
+                <li className="nav-item">
+                  <a className={this.props.path === "/dashboard" ? activeLinkClasses : inactiveLinkClasses} href="/dashboard">
+                    <i className="fas fa-chart-line" /> Dashboard{" "}
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link nav-link-item" href="/logout">
+                    <i className="fas fa-sign-out-alt" /> Logout
+                  </a>
+                </li>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <li className="nav-item">
+                  <a className={this.props.path === "/" ? activeLinkClasses : inactiveLinkClasses} href="/">
+                    <i className="fas fa-home" /> Home{" "}
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className={this.props.path === "/login" ? activeLinkClasses : inactiveLinkClasses} href="/login">
+                    <i className="fas fa-sign-in-alt" /> Login/Register
+                  </a>
+                </li>
+              </React.Fragment>
+            )}
+          </ul>
+        </div>
+      </nav>
+    );
   }
-  return (
-    <Menu>
-      <h2>
-        <img className="center-block heroku" src={logo} alt="logo" />
-      </h2>
-      <a id="home" className="menu-item" href="/">
-        <i className="fas fa-home" /> Home
-      </a>
-      <a id="login" className="menu-item" href="/login">
-        <i className="fas fa-sign-in-alt" /> Login/Register
-      </a>
-    </Menu>
-  )
 }
 
-export default Navigation
+export default Navigation;
