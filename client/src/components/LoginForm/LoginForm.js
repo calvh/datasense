@@ -6,24 +6,67 @@ class LoginForm extends Component {
   state = {
     email: "",
     password: "",
+    emailValid: false,
+    passwordValid: false,
+    formValid: false,
+    formErrors: {email: '', password: ''},
   };
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
+  handleChange = event => {
+    const value = event.target.value;
+    const name = event.target.name;
+    console.log(event.target.value);
+
+    this.validateField(name, value);
+    this.validateForm();
+    this.setState(state => {
+      return {[name]: value}
+      }
+     );
   };
+
+  validateField = (fieldname, value) => {
+    let emailValid ;
+    let passwordValid ;
+    let formErrors = {};
+    console.log(value);
+    switch(fieldname) {
+      case 'email':
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        formErrors.email = emailValid ? " ": "Please enter a valid Email address";
+        break;
+
+      case 'password':
+        passwordValid = value.length >= 6;
+        formErrors.password = passwordValid? "": "Password is too short";
+        break;
+
+      default:
+        break;
+    }
+    this.setState({ emailValid, 
+                    passwordValid,
+                    formErrors
+                  });   
+  }
+  validateForm() {
+    this.setState({formValid: this.state.emailValid && this.state.passwordValid});
+    console.log(this.state.formValid);
+  }
+  // errorClass(error) {
+  //   return(error.length === 0 ? '' : 'has-error');
+  // }
 
   loginUser = e => {
     e.preventDefault();
     if (this.state.email === "" || this.state.password === "") {
-      // TODO implement error display
+      //redundant      
     } else {
       API.loginUser(this.state.email, this.state.password)
         .then(response => {
           console.log(response.data);
           if (!response.data.token) {
-            // TODO implement error dipslay
+            
           } else {
             localStorage.setItem("JWT", response.data.token);
             this.props.history.push("/dashboard");
@@ -38,52 +81,55 @@ class LoginForm extends Component {
   render() {
     return (
       <div>
+        {/* <div className="card rounded-0 has-error">  {this.state.formErrors.email}
+        {this.state.formErrors.password}     
+          <FormErrors onChange={this.state.formErrors} />       
+        </div> */}
         <div className="card rounded-0">
           <div className="card-header">
             <h3 className="mb-0">Login</h3>
           </div>
           <div className="card-body">
             <form
-              className="form"
-              role="form"
+              className="form"  
+              role="form" 
               autoComplete="off"
-              id="formLogin"
+              id="formLogin" 
               noValidate=""
               method="POST"
               onSubmit={this.loginUser}
             >
-              <div className="form-group">
+             <div className="form-group">
                 <label htmlFor="emailLogin">Email</label>
                 <input
-                  type="text"
+                  type="email"
                   className="form-control form-control-lg rounded-0"
-                  name="emailLogin"
-                  id="emailLogin"
-                  required=""
+                  name="email"
+                  placeholder="Email"
                   value={this.state.email}
-                  onChange={this.handleChange("email")}
+                  onChange={this.handleChange}
+                  required
                 />
-                <div className="invalid-feedback">
-                  Oops, you missed this one.
-                </div>
+                <small className="form-text text-danger">{this.state.formErrors.email}</small>
               </div>
               <div className="form-group">
                 <label>Password</label>
                 <input
                   type="password"
+                  name="password"
                   className="form-control form-control-lg rounded-0"
-                  id="pwdLogin"
-                  required=""
                   autoComplete="new-password"
                   value={this.state.password}
-                  onChange={this.handleChange("password")}
+                  onChange={this.handleChange}
+                  required
                 />
-                <div className="invalid-feedback">Enter your password too!</div>
+                <small className="form-text text-danger">{this.state.formErrors.password}</small>
               </div>
               <button
                 type="submit"
                 className="btn btn-success btn-lg float-right"
                 id="btnLogin"
+                disabled={!this.state.formValid}
               >
                 Login
               </button>

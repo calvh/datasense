@@ -3,6 +3,7 @@ import Navigation from "./../components/Navigation/Navigation";
 import LoginForm from "./../components/LoginForm/LoginForm";
 import RegisterForm from "./../components/RegisterForm/RegisterForm";
 import { Container, Row, Col } from "reactstrap";
+import { FormErrors } from "../components/RegisterForm/FormErrors";
 
 class Login extends Component {
   state = {
@@ -65,6 +66,12 @@ class Login extends Component {
               </ul>
             </Col>
             <Col md="3" />
+          </Row>
+          <Row>
+            <Col md="4">
+            <div className="tab-content fade show active">
+              <FormErrors />
+            </div></Col>
           </Row>
           <Row>
             <Col md="3" />
