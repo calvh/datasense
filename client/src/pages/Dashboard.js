@@ -5,11 +5,13 @@ import DatasetList from "../components/DatasetList/DatasetList";
 import Header from "../components/Header/Header";
 import API from "../utils/API";
 import DatasetRow from "../components/DatasetRow";
+import Loader from "../components/Loader";
 import SampleDatasets from "../utils/SampleDatasets";
 
 class Dashboard extends Component {
   state = {
     isLoggedIn: false,
+    isLoading: false,
     datasets: [],
   };
 
@@ -21,7 +23,7 @@ class Dashboard extends Component {
       this.setState({
         isLoggedIn: true,
       });
-      this.loadDatasets();
+      this.fetchDatasets();
     }
   }
 
@@ -29,23 +31,31 @@ class Dashboard extends Component {
 
   createDataset = newDataset => {
     const accessString = localStorage.getItem("JWT");
-
+    this.setState({ isLoading: true });
     API.createDataset(accessString, newDataset)
       .then(response => {
-        this.loadDatasets();
+        this.fetchDatasets();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({ isLoading: false });
+        console.log(err);
+      });
   };
 
-  loadDatasets = () => {
+  fetchDatasets = () => {
     const accessString = localStorage.getItem("JWT");
+    this.setState({ isLoading: true });
     API.getAllDatasets(accessString)
       .then(response => {
         this.setState({
           datasets: response.data,
+          isLoading: false,
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({ isLoading: false });
+        console.log(err);
+      });
   };
 
   updateDataset = (event, datasetId, updatedDataset) => {
@@ -54,12 +64,15 @@ class Dashboard extends Component {
 
     // TODO replace with actual data
     var updatedDataset = SampleDatasets.getRandomDataset();
-
+    this.setState({ isLoading: true });
     API.updateDataset(accessString, datasetId, updatedDataset)
       .then(response => {
-        this.loadDatasets();
+        this.fetchDatasets();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({ isLoading: false });
+        console.log(err);
+      });
   };
 
   deleteDataset = (event, datasetId) => {
@@ -68,9 +81,12 @@ class Dashboard extends Component {
 
     API.deleteDataset(accessString, datasetId)
       .then(response => {
-        this.loadDatasets();
+        this.fetchDatasets();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({ isLoading: false });
+        console.log(err);
+      });
   };
 
   // ----------------------  SAMPLE DATASET METHODS  ----------------------
@@ -81,33 +97,34 @@ class Dashboard extends Component {
 
   loadSampleDatasets = () => {
     const accessString = localStorage.getItem("JWT");
-    Promise.all(SampleDatasets.getAllSampleDatasets().map(sampleDataset => API.createDataset(accessString, sampleDataset)))
-      .then(() => this.loadDatasets())
-      .catch(err => console.log(err));
+    this.setState({ isLoading: true });
+    Promise.all(
+      SampleDatasets.getAllSampleDatasets().map(sampleDataset =>
+        API.createDataset(accessString, sampleDataset)
+      )
+    )
+      .then(() => this.fetchDatasets())
+      .catch(err => {
+        this.setState({ isLoading: false });
+        console.log(err);
+      });
   };
 
   render() {
     return (
       <div>
-        <Navigation isLoggedIn={this.state.isLoggedIn} path={this.props.location.pathname} />
+        <Navigation
+          isLoggedIn={this.state.isLoggedIn}
+          path={this.props.location.pathname}
+        />
         <Container fluid>
           <Header
+            totalDatasets={this.state.datasets.length}
             createDataset={this.createDataset}
             updateDataset={this.updateDataset}
-            loadDatasets={this.loadDatasets}
+            fetchDatasets={this.fetchDatasets}
             loadSampleDatasets={this.loadSampleDatasets}
-            totalDatasets={this.state.datasets.length}
           />
-          {/* <Row>
-            <Col md="12">
-              <button className="btn btn-sm" onClick={this.loadSampleDatasets}>
-                Load sample datasets
-              </button>
-              <button className="btn btn-sm" onClick={this.createSampleDataset}>
-                Create Sample Dataset
-              </button>
-            </Col>
-          </Row> */}
           <Row>
             <Col md="12">
               <h2 className="header-line">
@@ -119,20 +136,39 @@ class Dashboard extends Component {
         <Container fluid>
           <Row>
             <DatasetList>
-              {this.state.datasets.map(dataset => {
-                return (
-                  <DatasetRow
-                    datasetName={dataset.name}
-                    datasetNumPoints={dataset.dataPoints.length}
-                    datasetCreatedAt={dataset.createdAt}
-                    datasetUpdatedAt={dataset.UpdatedAt}
-                    key={`display-${dataset._id}`}
-                    onClickDelete={e => this.deleteDataset(e, dataset._id)}
-                    onClickUpdate={e => this.updateDataset(e, dataset._id)}
-                    onClickView={e => this.props.history.push(`/dashboard/view/${dataset._id}`)}
-                  />
-                );
-              })}
+              {this.state.isLoading ? (
+                <Col md="12">
+                  <div className="d-flex justify-content-center mt-5">
+                    <Loader />
+                  </div>
+                </Col>
+              ) : this.state.datasets.length < 1 ? (
+                <div className="d-flex justify-content-center w-100 mt-5">
+                  <h4>
+                    No datasets yet! Upload one from your computer or load some
+                    sample datasets!
+                  </h4>
+                </div>
+              ) : (
+                this.state.datasets.map(dataset => {
+                  return (
+                    <DatasetRow
+                      key={`display-${dataset._id}`}
+                      onClickDelete={e => this.deleteDataset(e, dataset._id)}
+                      onClickUpdate={e => this.updateDataset(e, dataset._id)}
+                      onClickView={e =>
+                        this.props.history.push(
+                          `/dashboard/view/${dataset._id}`
+                        )
+                      }
+                      datasetName={dataset.name}
+                      datasetNumPoints={dataset.dataPoints.length}
+                      datasetCreatedAt={dataset.createdAt}
+                      datasetUpdatedAt={dataset.UpdatedAt}
+                    />
+                  );
+                })
+              )}
             </DatasetList>
           </Row>
         </Container>

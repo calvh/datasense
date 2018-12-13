@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Navigation from "./../components/Navigation/Navigation";
+import Loader from "./../components/Loader";
 import { Container, Row, Col } from "reactstrap";
 import API from "../utils/API";
 import Stats from "../utils/Stats";
@@ -17,6 +18,7 @@ class View extends Component {
     dataset: false,
     chartOptions: {},
     chartData: {},
+    isLoading: false,
   };
 
   componentDidMount() {
@@ -30,23 +32,31 @@ class View extends Component {
         isLoggedIn: true,
       });
 
-      this.loadDataset()
+      this.fetchDataset()
         .then(() => this.loadModel(this.state.dataset.dataPoints))
         .then(() => this.loadChart(this.state.dataset, this.state.model))
         .then(() => Prism.highlightAll())
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.setState({ isLoading: false });
+          console.log(err);
+        });
     }
   }
 
-  loadDataset = () => {
+  fetchDataset = () => {
     const accessString = localStorage.getItem("JWT");
+    this.setState({ isLoading: true });
     return API.getDataset(accessString, this.props.match.params.id)
       .then(response => {
         this.setState({
           dataset: response.data,
+          isLoading: false,
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({ isLoading: false });
+        console.log(err);
+      });
   };
 
   loadModel = dataPoints => {
@@ -79,8 +89,8 @@ class View extends Component {
           // pointBackgroundColor: '#fff',
           pointBorderWidth: 2,
           pointHoverRadius: 10,
-          pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-          pointHoverBorderColor: 'rgba(220,220,220,1)',
+          pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
           pointHoverBorderWidth: 3,
           pointRadius: 7,
           pointHitRadius: 7,
@@ -92,7 +102,7 @@ class View extends Component {
           showLine: true,
           pointRadius: 0,
           fill: false,
-          borderColor: 'red'
+          borderColor: "red",
         },
       ],
     };
@@ -101,7 +111,7 @@ class View extends Component {
       title: {
         display: true,
         text: dataset.name,
-        fontSize: 20
+        fontSize: 20,
       },
       responsive: true,
       scales: {
@@ -114,8 +124,8 @@ class View extends Component {
             scaleLabel: {
               display: true,
               labelString: dataset.headers[0],
-              fontColor: 'red',
-              fontSize: 15
+              fontColor: "red",
+              fontSize: 15,
             },
           },
         ],
@@ -128,13 +138,13 @@ class View extends Component {
             scaleLabel: {
               display: true,
               labelString: dataset.headers[1],
-              fontColor: 'red',
-              fontSize: 15
+              fontColor: "red",
+              fontSize: 15,
             },
           },
         ],
-      }
-    }
+      },
+    };
 
     this.setState({
       chartOptions,
@@ -143,6 +153,13 @@ class View extends Component {
   };
 
   render() {
+    const centerDiv = {
+      position: "fixed",
+      left: "50%",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
+    };
+
     return (
       <div>
         <Navigation
@@ -150,7 +167,11 @@ class View extends Component {
           path={this.props.location.pathname}
         />
         <Container fluid>
-          {this.state.dataset ? (
+          {this.state.isLoading ? (
+            <div style={centerDiv}>
+              <Loader />
+            </div>
+          ) : this.state.dataset ? (
             <Row className="header-top-row">
               <Col md="12" lg="12">
                 <div className="white-box analytics-info">
@@ -175,7 +196,7 @@ class View extends Component {
                             )}+${this.state.model.slope.toFixed(3)}x_{1}`}
                           />
                         ) : (
-                          <h3>No equation</h3>
+                          <h4>No equation generated!</h4>
                         )}
                       </span>
                     </li>
@@ -213,7 +234,6 @@ class View extends Component {
                         {moment(this.state.dataset.createdAt).format(
                           "MM/DD/YY"
                         )}
-                        {/* <Codeblock code={this.state.model} language="javascript" /> */}
                       </span>
                     </li>
                   </ul>
@@ -268,11 +288,9 @@ class View extends Component {
               </Col>
             </Row>
           ) : (
-            <Row className="header-top-row">
-              <Col md="12" lg="12">
-                <h3>Loading...</h3>
-              </Col>
-            </Row>
+            <div style={centerDiv}>
+              <h4>Sorry, this dataset appears to be empty!</h4>
+            </div>
           )}
         </Container>
       </div>
