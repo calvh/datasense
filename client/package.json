@@ -10,6 +10,7 @@
     "moment": "^2.22.2",
     "papaparse": "^4.6.2",
     "prismjs": "^1.15.0",
+    "prop-types": "^15.6.2",
     "react": "^16.0.0",
     "react-burger-menu": "^2.5.4",
     "react-chartjs-2": "^2.7.4",

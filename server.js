@@ -32,15 +32,19 @@ const jwtConfig = require("./config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const passportJWT = require("passport-jwt");
 const bcrypt = require("bcrypt");
+const validate = require("validate.js");
+const validationConstraints = require("./config/validationConstraints");
 
 // * apply passport settings
 require("./config/passport")(
+  db,
   jwtConfig,
   bcrypt,
   passport,
   localStrategy,
   passportJWT,
-  db
+  validate,
+  validationConstraints
 );
 
 app.use(passport.initialize());

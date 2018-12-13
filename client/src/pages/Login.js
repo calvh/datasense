@@ -44,8 +44,6 @@ class Login extends Component {
                     data-toggle="pill"
                     href="#pills-login"
                     role="tab"
-                    aria-controls="pills-login"
-                    aria-selected="true"
                   >
                     Login
                   </a>
@@ -57,8 +55,6 @@ class Login extends Component {
                     data-toggle="pill"
                     href="#pills-register"
                     role="tab"
-                    aria-controls="pills-register"
-                    aria-selected="false"
                   >
                     Register
                   </a>
@@ -81,7 +77,6 @@ class Login extends Component {
                   className="tab-pane fade show active"
                   id="pills-login"
                   role="tabpanel"
-                  aria-labelledby="pills-login-tab"
                 >
                   <LoginForm history={this.props.history} />
                 </div>
@@ -89,7 +84,6 @@ class Login extends Component {
                   className="tab-pane fade"
                   id="pills-register"
                   role="tabpanel"
-                  aria-labelledby="pills-register-tab"
                 >
                   <RegisterForm history={this.props.history} />
                 </div>
