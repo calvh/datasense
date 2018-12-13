@@ -50,7 +50,7 @@ class RegisterForm extends Component {
                     formErrors
                   });   
   }
-  validateForm() {
+  validateForm = () => {
     this.setState({formValid: this.state.emailValid && this.state.passwordValid});
     console.log(this.state.formValid);
   }
@@ -124,7 +124,7 @@ class RegisterForm extends Component {
               type="submit"
               className="btn btn-success btn-lg float-right"
               id="btnRegister"
-              disabled={!this.state.formValid}
+              //disabled={!(this.state.emailValid || this.state.passwordValid)}
             >
               Register
             </button>

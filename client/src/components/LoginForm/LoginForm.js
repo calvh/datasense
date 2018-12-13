@@ -8,17 +8,17 @@ class LoginForm extends Component {
     password: "",
     emailValid: false,
     passwordValid: false,
-    formValid: false,
+    // formValid: false,
     formErrors: {email: '', password: ''},
   };
 
   handleChange = event => {
     const value = event.target.value;
     const name = event.target.name;
-    console.log(event.target.value);
+    //console.log(event.target.value);
 
     this.validateField(name, value);
-    this.validateForm();
+    // this.validateForm();
     this.setState(state => {
       return {[name]: value}
       }
@@ -29,7 +29,7 @@ class LoginForm extends Component {
     let emailValid ;
     let passwordValid ;
     let formErrors = {};
-    console.log(value);
+    //console.log(value);
     switch(fieldname) {
       case 'email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
@@ -46,13 +46,17 @@ class LoginForm extends Component {
     }
     this.setState({ emailValid, 
                     passwordValid,
+                    // formValid: emailValid && passwordValid,
                     formErrors
-                  });   
+                  }); 
+                  // console.log(this.state.formValid)  
   }
-  validateForm() {
-    this.setState({formValid: this.state.emailValid && this.state.passwordValid});
-    console.log(this.state.formValid);
-  }
+  // validateForm = () => {
+  //   this.setState({formValid: this.state.emailValid && this.state.passwordValid});
+  //   console.log(this.state.emailValid)
+  //   console.log(this.state.passwordValid)
+  //   console.log(this.state.formValid);
+  // }
   // errorClass(error) {
   //   return(error.length === 0 ? '' : 'has-error');
   // }
@@ -129,7 +133,7 @@ class LoginForm extends Component {
                 type="submit"
                 className="btn btn-success btn-lg float-right"
                 id="btnLogin"
-                disabled={!this.state.formValid}
+               // disabled={(!this.state.emailValid || !this.state.passwordValid)}
               >
                 Login
               </button>
