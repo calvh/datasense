@@ -1,5 +1,9 @@
 # Create React Express App
 
+## Heroku Deployment
+
+[Heroku Link](https://datasense-solutions.herokuapp.com/)
+
 ## About This Boilerplate
 
 This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
@@ -24,6 +28,3 @@ yarn start
 
 Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
 
-## Deployment (Heroku)
-
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
