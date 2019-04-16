@@ -1,7 +1,7 @@
 # DataSense
 
 A data analysis tool built on the MERN stack as a proof of concept. Currently supports uploading of CSV files containing X-Y data pairs and performs simple linear regression.
-Click [here](https://data--sense.herokuapp.com) for implementation on Heroku.
+Click [here](https://data--sense.herokuapp.com) to view the implementation on Heroku.
 
 ## Usage
 
