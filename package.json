@@ -20,6 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^3.5.0",
+    "eslint": "^5.10.0",
     "eslint-plugin-prettier": "^3.0.0",
     "nodemon": "^1.11.0",
     "prettier": "1.15.2"
@@ -36,6 +37,7 @@
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "validate.js": "^0.12.0"
   }
 }

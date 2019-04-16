@@ -6,136 +6,145 @@ class LoginForm extends Component {
   state = {
     email: "",
     password: "",
-    emailValid: false,
-    passwordValid: false,
-    // formValid: false,
-    formErrors: {email: '', password: ''},
+    emailValid: true,
+    emailError: "",
+    passwordValid: true,
+    passwordError: "",
+    isLoading: false,
   };
 
   handleChange = event => {
     const value = event.target.value;
     const name = event.target.name;
-    //console.log(event.target.value);
 
-    this.validateField(name, value);
-    // this.validateForm();
     this.setState(state => {
-      return {[name]: value}
-      }
-     );
+      return {
+        [name]: value,
+        emailValid: true,
+        emailError: "",
+        passwordValid: true,
+        passwordError: "",
+      };
+    });
   };
 
-  validateField = (fieldname, value) => {
-    let emailValid ;
-    let passwordValid ;
-    let formErrors = {};
-    //console.log(value);
-    switch(fieldname) {
-      case 'email':
-        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        formErrors.email = emailValid ? " ": "Please enter a valid Email address";
-        break;
+  loginUser = event => {
+    event.preventDefault();
 
-      case 'password':
-        passwordValid = value.length >= 6;
-        formErrors.password = passwordValid? "": "Password is too short";
-        break;
-
-      default:
-        break;
-    }
-    this.setState({ emailValid, 
-                    passwordValid,
-                    // formValid: emailValid && passwordValid,
-                    formErrors
-                  }); 
-                  // console.log(this.state.formValid)  
-  }
-  // validateForm = () => {
-  //   this.setState({formValid: this.state.emailValid && this.state.passwordValid});
-  //   console.log(this.state.emailValid)
-  //   console.log(this.state.passwordValid)
-  //   console.log(this.state.formValid);
-  // }
-  // errorClass(error) {
-  //   return(error.length === 0 ? '' : 'has-error');
-  // }
-
-  loginUser = e => {
-    e.preventDefault();
-    if (this.state.email === "" || this.state.password === "") {
-      //redundant      
-    } else {
+    if (this.state.email && this.state.password) {
+      this.setState({ isLoading: true });
       API.loginUser(this.state.email, this.state.password)
         .then(response => {
-          console.log(response.data);
-          if (!response.data.token) {
-            
-          } else {
+          this.setState({ isLoading: false });
+          if (response.data.token) {
             localStorage.setItem("JWT", response.data.token);
             this.props.history.push("/dashboard");
           }
         })
         .catch(err => {
-          console.log(err.data);
+          this.setState({ isLoading: false });
+          switch (err.response.status) {
+            case 500: {
+              return alert("An error occurred. Try refreshing the page.");
+            }
+            case 404: {
+              if (err.response.data.authError === "email") {
+                return this.setState({
+                  emailValid: false,
+                  emailError: "Couldn't find your account",
+                });
+              }
+            }
+            case 401: {
+              if (err.response.data.authError === "password") {
+                return this.setState({
+                  passwordValid: false,
+                  passwordError: "Wrong password",
+                });
+              }
+            }
+            case 400: {
+              return this.setState({
+                emailValid: false,
+                emailError: "Please check your email and try again",
+                passwordValid: false,
+                passwordError: "Please check your password and try again",
+              });
+            }
+          }
         });
+    } else {
+      if (!this.state.email) {
+        this.setState({
+          emailValid: false,
+          emailError: "Email is required",
+        });
+      }
+
+      if (!this.state.password) {
+        this.setState({
+          passwordValid: false,
+          passwordError: "Password is required",
+        });
+      }
     }
   };
 
   render() {
+    const validInputClasses = "form-control form-control-lg rounded-0";
+    const invalidInputClasses =
+      "form-control form-control-lg rounded-0 is-invalid";
+
     return (
       <div>
-        {/* <div className="card rounded-0 has-error">  {this.state.formErrors.email}
-        {this.state.formErrors.password}     
-          <FormErrors onChange={this.state.formErrors} />       
-        </div> */}
         <div className="card rounded-0">
           <div className="card-header">
             <h3 className="mb-0">Login</h3>
           </div>
           <div className="card-body">
-            <form
-              className="form"  
-              role="form" 
-              autoComplete="off"
-              id="formLogin" 
-              noValidate=""
-              method="POST"
-              onSubmit={this.loginUser}
-            >
-             <div className="form-group">
-                <label htmlFor="emailLogin">Email</label>
+            <form className="form" autoComplete="off" noValidate="">
+              <div className="form-group">
                 <input
                   type="email"
-                  className="form-control form-control-lg rounded-0"
                   name="email"
+                  autoComplete="email"
                   placeholder="Email"
+                  className={
+                    this.state.emailValid
+                      ? validInputClasses
+                      : invalidInputClasses
+                  }
                   value={this.state.email}
                   onChange={this.handleChange}
-                  required
                 />
-                <small className="form-text text-danger">{this.state.formErrors.email}</small>
+                <small className="form-text text-danger">
+                  {this.state.emailError}
+                </small>
               </div>
               <div className="form-group">
-                <label>Password</label>
                 <input
                   type="password"
                   name="password"
-                  className="form-control form-control-lg rounded-0"
-                  autoComplete="new-password"
+                  autoComplete="current-password"
+                  placeholder="Password"
+                  className={
+                    this.state.passwordValid
+                      ? validInputClasses
+                      : invalidInputClasses
+                  }
                   value={this.state.password}
                   onChange={this.handleChange}
-                  required
                 />
-                <small className="form-text text-danger">{this.state.formErrors.password}</small>
+                <small className="form-text text-danger">
+                  {this.state.passwordError}
+                </small>
               </div>
               <button
-                type="submit"
                 className="btn btn-success btn-lg float-right"
-                id="btnLogin"
-               // disabled={(!this.state.emailValid || !this.state.passwordValid)}
+                onClick={this.loginUser}
+                disabled={!this.state.emailValid || !this.state.passwordValid}
               >
-                Login
+                {this.state.isLoading ? "Loading..." : "Login"}
               </button>
             </form>
           </div>
