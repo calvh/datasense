@@ -6,10 +6,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(require("cookie-parser")());
-if (process.env.NODE_ENV !== "production"){
+if (process.env.NODE_ENV !== "production") {
   app.use(require("morgan")("dev"));
 }
-app.use(require("helmet")());
+app.use(require("helmet")({ contentSecurityPolicy: false }));
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
