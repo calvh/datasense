@@ -7,8 +7,6 @@ import Stats from "../utils/Stats";
 import { Scatter } from "react-chartjs-2";
 import Codeblock from "../components/Codeblock";
 import Prism from "prismjs";
-import "katex/dist/katex.min.css";
-import { BlockMath } from "react-katex";
 import moment from "moment";
 
 class View extends Component {
@@ -36,7 +34,7 @@ class View extends Component {
         .then(() => this.loadModel(this.state.dataset.dataPoints))
         .then(() => this.loadChart(this.state.dataset, this.state.model))
         .then(() => Prism.highlightAll())
-        .catch(err => {
+        .catch((err) => {
           this.setState({ isLoading: false });
           console.log(err);
         });
@@ -47,26 +45,26 @@ class View extends Component {
     const accessString = localStorage.getItem("JWT");
     this.setState({ isLoading: true });
     return API.getDataset(accessString, this.props.match.params.id)
-      .then(response => {
+      .then((response) => {
         this.setState({
           dataset: response.data,
           isLoading: false,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({ isLoading: false });
         console.log(err);
       });
   };
 
-  loadModel = dataPoints => {
+  loadModel = (dataPoints) => {
     const model = Stats.generateSimpleLinearModel(dataPoints);
     this.setState({ model });
   };
 
   loadChart = (dataset, model) => {
     const actualDataPoints = Stats.convertToXYPoints(dataset.dataPoints);
-    const predictedDataPoints = dataset.dataPoints.map(dataPoint => {
+    const predictedDataPoints = dataset.dataPoints.map((dataPoint) => {
       return {
         x: dataPoint[0],
         y: model.lineFunction(dataPoint[0]),
@@ -190,11 +188,9 @@ class View extends Component {
                       <i className="ti-arrow-up text-purple" />
                       <span className="counter text-purple">
                         {this.state.model.intercept ? (
-                          <BlockMath
-                            math={`y=${this.state.model.intercept.toFixed(
-                              3
-                            )}+${this.state.model.slope.toFixed(3)}x_{1}`}
-                          />
+                          `y=${this.state.model.intercept.toFixed(
+                            3
+                          )}+${this.state.model.slope.toFixed(3)}x_{1}`
                         ) : (
                           <h4>No equation generated!</h4>
                         )}
