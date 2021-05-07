@@ -6,8 +6,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(require("cookie-parser")());
-app.use(require("morgan")("dev"));
-app.use(require("compression")());
+if (process.env.NODE_ENV !== "production"){
+  app.use(require("morgan")("dev"));
+}
 app.use(require("helmet")());
 
 // Serve up static assets (usually on heroku)
@@ -20,10 +21,10 @@ const mongoose = require("mongoose");
 const dbName = "datasense";
 const MONGODB_URI = process.env.MONGODB_URI || `mongodb://localhost/${dbName}`;
 const db = require("./models")(mongoose);
-mongoose.connect(
-  MONGODB_URI,
-  { useNewUrlParser: true }
-);
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // ------------------------------  PASSPORT  ------------------------------
 const passport = require("passport");
